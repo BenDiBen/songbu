@@ -1,11 +1,13 @@
 import { AppProviders } from "@/app/providers";
-import { theme } from "@/theme";
-import { ColorModeScript } from "@chakra-ui/color-mode";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import dynamic from "next/dynamic";
 import type { PropsWithChildren } from "react";
+import { className } from "./fonts";
 
-const inter = Inter({ subsets: ["latin"] });
+const ColorModeScriptWrapper = dynamic(
+	() => import("./components/color-mode-script-wrapper"),
+	{ ssr: false },
+);
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -15,8 +17,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>
-				<ColorModeScript initialColorMode={theme.config.initialColorMode} />
+			<body className={className}>
+				<ColorModeScriptWrapper />
 				<AppProviders>{children}</AppProviders>
 			</body>
 		</html>
