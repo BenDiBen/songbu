@@ -1,7 +1,11 @@
-import { Heading } from "@chakra-ui/layout";
+import { Container, Heading } from "@chakra-ui/layout";
 
 const Home = () => {
-	return <Heading>Home</Heading>;
+	return (
+		<Container variant="app">
+			<Heading>Home</Heading>
+		</Container>
+	);
 };
 
 export default Home;
