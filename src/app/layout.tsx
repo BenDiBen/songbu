@@ -2,7 +2,6 @@ import { AppProviders } from "@/app/providers";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import type { PropsWithChildren } from "react";
-import { className } from "./fonts";
 
 const ColorModeScriptWrapper = dynamic(
 	() => import("./components/color-mode-script-wrapper"),
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<html lang="en">
-			<body className={className}>
+			<body>
 				<ColorModeScriptWrapper />
 				<AppProviders>{children}</AppProviders>
 			</body>
