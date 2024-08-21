@@ -1,4 +1,5 @@
 import { AppProviders } from "@/app/providers";
+import { Box } from "@chakra-ui/layout";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import type { PropsWithChildren } from "react";
@@ -18,7 +19,17 @@ export default function RootLayout({ children }: PropsWithChildren) {
 		<html lang="en">
 			<body>
 				<ColorModeScriptWrapper />
-				<AppProviders>{children}</AppProviders>
+				<AppProviders>
+					<Box
+						maxH="100svh"
+						minH="100svh"
+						display="flex"
+						alignItems="stretch"
+						justifyContent="stretch"
+					>
+						{children}
+					</Box>
+				</AppProviders>
 			</body>
 		</html>
 	);

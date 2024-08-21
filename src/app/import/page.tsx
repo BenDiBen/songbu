@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/layout";
+import { ImportContainer } from "./components/import-container";
 import { ImportWizard } from "./components/import-wizard";
 
 const steps = [
@@ -9,9 +9,9 @@ const steps = [
 
 const Home = () => {
 	return (
-		<Container variant="app">
+		<ImportContainer>
 			<ImportWizard />
-		</Container>
+		</ImportContainer>
 	);
 };
 
