@@ -19,17 +19,22 @@ import {
 } from "react";
 import type { Accept, FileRejection } from "react-dropzone";
 import { LuFilePlus } from "react-icons/lu";
-import { useDrag } from "../contexts/drag-provider";
+import { useDrag } from "../../contexts/drag-provider";
+import { EmptyPlaceholder } from "./empty-placeholder";
+import { SinglePlaceholder } from "./single-placeholder";
 
 interface FileDragAndDropProps {
-	name: string;
 	accept: Accept;
 	multiple?: boolean;
 	onChange?: (files: File[]) => void;
+	value?: File | File[];
 }
 
 export const FileDragAndDrop = forwardRef(
-	({ name, accept, multiple = false, onChange }: FileDragAndDropProps, ref) => {
+	(
+		{ value, accept, multiple = false, onChange }: FileDragAndDropProps,
+		ref,
+	) => {
 		const inputRef = useRef<HTMLInputElement | null>(null);
 		const bgColor = useColorModeValue("primary.200", "primary.800");
 		const onDrop = useCallback(
@@ -77,10 +82,10 @@ export const FileDragAndDrop = forwardRef(
 				</Center>
 				<Card
 					h="unset"
-					py={8}
 					border="2px dashed"
 					borderColor="chakra-subtle-text"
 					width="full"
+					height="xs"
 					textAlign="center"
 					onClick={handleClick}
 					_hover={{
@@ -101,17 +106,15 @@ export const FileDragAndDrop = forwardRef(
 								{...state?.getInputProps()}
 							/>
 						</Box>
-						<VStack gap={4}>
-							<Icon as={LuFilePlus} w={20} h={20} />
-							<Text as="strong">
-								Drag a file here or click this area to browse for a file
-							</Text>
-							{accept && (
-								<Text fontSize="sm" color="chakra-subtle-text">
-									{`Supports: ${Object.values(accept).flat().join(", ")}`}
-								</Text>
+						<Center h="full">
+							{value && !Array.isArray(value) && (
+								<SinglePlaceholder
+									onRemove={onChange ? () => onChange([]) : undefined}
+									file={value}
+								/>
 							)}
-						</VStack>
+							{!value && <EmptyPlaceholder accept={accept} />}
+						</Center>
 					</CardBody>
 				</Card>
 			</>

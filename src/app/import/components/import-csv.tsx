@@ -2,19 +2,16 @@ import { FileDragAndDrop } from "@/components/forms/file-drag-and-drop";
 import { useCsvImportQuery } from "@/services/file/get-csv-import-query";
 import { useCsvPreview } from "@/services/file/get-csv-preview";
 import type { SongBookColumnMapping } from "@/types/song-book-column-mapping";
-import { Button } from "@chakra-ui/button";
 import { VStack } from "@chakra-ui/layout";
 import {
 	Table,
 	TableContainer,
 	Tbody,
 	Td,
-	Text,
 	Th,
 	Thead,
 	Tr,
 } from "@chakra-ui/react";
-import { sum } from "ramda";
 import { useCallback, useEffect, useState } from "react";
 import type { ImportWizardProps } from "./types";
 
@@ -82,6 +79,7 @@ export const ImportCsv = ({ state }: ImportWizardProps) => {
 				name="file"
 				accept={accept}
 				onChange={handleFileSelect}
+				value={file}
 			/>
 			{preview && (
 				<TableContainer>
@@ -105,13 +103,6 @@ export const ImportCsv = ({ state }: ImportWizardProps) => {
 					</Table>
 				</TableContainer>
 			)}
-			<Text>
-				{JSON.stringify({
-					artists: songBook?.length,
-					songs: sum(songBook?.flatMap((x) => x.songs.length) ?? []),
-				})}
-			</Text>
-			<Button type="submit">Submit</Button>
 		</VStack>
 	);
 };
