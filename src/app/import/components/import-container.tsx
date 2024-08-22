@@ -7,7 +7,7 @@ import type { PropsWithChildren } from "react";
 export const ImportContainer = ({ children }: PropsWithChildren) => {
 	const { state } = useDrag();
 	return (
-		<Container variant="app" {...state?.getRootProps()}>
+		<Container variant="app" {...state?.getRootProps()} onClick={undefined}>
 			{children}
 		</Container>
 	);
