@@ -1,8 +1,9 @@
 "use client";
 
-import { Box, Center, useToken } from "@chakra-ui/react";
+import { Box, Center, Fade, Icon, Tag, useToken } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import type { PropsWithChildren, ReactNode } from "react";
+import { LuCheck } from "react-icons/lu";
 
 const CARD_SIZE = "24rem";
 
@@ -33,11 +34,13 @@ interface StepProps extends PropsWithChildren {
 	activeStepIndex: number;
 	stepIndex: number;
 	label?: ReactNode;
+	lazy?: boolean;
 }
 
 export const Step = ({
 	activeStepIndex,
 	children,
+	lazy,
 	label,
 	stepIndex,
 }: StepProps) => {
@@ -63,7 +66,13 @@ export const Step = ({
 			variants={CARD_VARIANTS}
 			borderRadius="10%"
 		>
-			{label}
+			<Box position="absolute" top={8} right={8}>
+				<Fade in={stepIndex < activeStepIndex}>
+					<Tag borderRadius="full" bg="green.500" color="white" p={2}>
+						<Icon as={LuCheck} height={8} width={8} />
+					</Tag>
+				</Fade>
+			</Box>
 			<Box
 				animate={isActive ? "active" : "hidden"}
 				as={motion.div}
@@ -104,7 +113,7 @@ export const Step = ({
 					},
 				}}
 			>
-				{children}
+				{lazy ? isActive && children : children}
 			</Box>
 		</Center>
 	);
