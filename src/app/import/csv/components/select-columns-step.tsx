@@ -10,6 +10,7 @@ import {
 	HStack,
 	Icon,
 	IconButton,
+	Portal,
 	Spacer,
 	Spinner,
 	Text,
@@ -175,39 +176,42 @@ export const SelectColumnsStep = ({
 					</VStack>
 				);
 			})}
-			<VStack spacing={4} alignItems="stretch">
-				{preview.headers.map((column) =>
-					isInList(column) ? (
-						<Card
-							cursor="pointer"
-							layoutId={column}
-							mx={4}
-							as={motion.div}
-							drag="y"
-							dragConstraints={dragAreaRef}
-							dragSnapToOrigin
-							onDragEnd={(e) => handleDrop(e, column)}
-							key={column}
-						>
-							<CardHeader>{column}</CardHeader>
-						</Card>
-					) : (
-						<Card
-							as={motion.div}
-							mx={4}
-							variants={{
-								hidden: { opacity: 0.0 },
-								visible: { opacity: 0.3 },
-							}}
-							initial="hidden"
-							animate="visible"
-							key={`${column}-placeholder`}
-						>
-							<CardHeader>{column}</CardHeader>
-						</Card>
-					),
-				)}
-			</VStack>
+			<Portal containerRef={dragAreaRef}>
+				<VStack spacing={4} alignItems="stretch" maxH={40} overflowY="auto">
+					{preview.headers.map((column) =>
+						isInList(column) ? (
+							<Portal key={column} containerRef={dragAreaRef}>
+								<Card
+									cursor="pointer"
+									layoutId={column}
+									mx={4}
+									as={motion.div}
+									drag="y"
+									dragConstraints={dragAreaRef}
+									dragSnapToOrigin
+									onDragEnd={(e) => handleDrop(e, column)}
+								>
+									<CardHeader>{column}</CardHeader>
+								</Card>
+							</Portal>
+						) : (
+							<Card
+								as={motion.div}
+								mx={4}
+								variants={{
+									hidden: { opacity: 0.0 },
+									visible: { opacity: 0.3 },
+								}}
+								initial="hidden"
+								animate="visible"
+								key={`${column}-placeholder`}
+							>
+								<CardHeader>{column}</CardHeader>
+							</Card>
+						),
+					)}
+				</VStack>
+			</Portal>
 		</VStack>
 	);
 };
