@@ -8,6 +8,8 @@ const CARD_SIZE = "24rem";
 
 const CARD_VARIANTS = {
 	todo: ({ offset }: { offset: number }) => ({
+		height: CARD_SIZE,
+		width: CARD_SIZE,
 		zIndex: undefined,
 		translateX: `calc(${offset} * (${CARD_SIZE} + 16rem))`,
 		transition: { type: "tween" },
@@ -52,16 +54,14 @@ export const Step = ({
 	return (
 		<Center
 			flexDirection="column"
+			initial="todo"
 			as={motion.div}
 			bgColor={colors[stepIndex % 5]}
 			position="absolute"
 			custom={{ offset: stepIndex - activeStepIndex }}
 			animate={isActive ? "active" : "todo"}
 			variants={CARD_VARIANTS}
-			height="sm"
 			borderRadius="10%"
-			width="sm"
-			p={8}
 		>
 			{label}
 			<Box
