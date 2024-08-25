@@ -7,26 +7,13 @@ import {
 	Card,
 	CardHeader,
 	FormLabel,
-	HStack,
-	Icon,
-	IconButton,
-	Portal,
-	Spacer,
 	Spinner,
 	Text,
 	VStack,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import {
-	type DragEvent,
-	type RefObject,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
-import { LuX } from "react-icons/lu";
-
-const accept = { "text/csv": [".csv"] };
+import { type DragEvent, type RefObject, useEffect, useRef } from "react";
+import { ColumnCard } from "./column-card";
 
 const ARTIST_COLUMN_ALIASES = [
 	"artist",
@@ -62,18 +49,20 @@ const intersectsWith = (ref: RefObject<HTMLDivElement>, event: DragEvent) => {
 
 export const SelectColumnsStep = ({
 	file,
+	onChange,
+	value,
 }: {
 	file: File;
+	value: SongBookColumnMapping;
+	onChange: (value: SongBookColumnMapping | undefined) => void;
 }) => {
-	const [columnMapping, setColumnMapping] =
-		useState<SongBookColumnMapping>(DEFAULT_MAPPING);
 	const { data: preview } = useCsvPreview(file);
 
 	useEffect(() => {
 		if (!preview?.headers) {
-			setColumnMapping(DEFAULT_MAPPING);
+			onChange(undefined);
 		} else {
-			setColumnMapping({
+			onChange({
 				artist: preview.headers.find((header) =>
 					ARTIST_COLUMN_ALIASES.some((alias) =>
 						header.toLocaleLowerCase().includes(alias),
@@ -86,7 +75,7 @@ export const SelectColumnsStep = ({
 				),
 			});
 		}
-	}, [preview?.headers]);
+	}, [preview?.headers, onChange]);
 
 	const dragAreaRef = useRef<HTMLDivElement>(null);
 	const artistRef = useRef<HTMLDivElement>(null);
@@ -104,34 +93,39 @@ export const SelectColumnsStep = ({
 		{ type: "title", ref: titleRef },
 	];
 
-	const handleDrop = (e: DragEvent, field: string) => {
+	const handleDrop = (field: string) => (e: DragEvent) => {
 		const intersectingRef = refs.find(({ ref }) => intersectsWith(ref, e));
-		const existingRef = refs.find(({ type }) => columnMapping[type] === field);
-		setColumnMapping((prev) => ({
-			...prev,
+		const existingRef = refs.find(({ type }) => value[type] === field);
+		onChange({
+			...value,
 			...(existingRef && { [existingRef.type]: undefined }),
 			...(intersectingRef && { [intersectingRef.type]: field }),
-		}));
+		});
 	};
 
 	const handleRemove = (type: keyof SongBookColumnMapping) =>
-		setColumnMapping((prev) => ({
-			...prev,
+		onChange({
+			...value,
 			[type]: undefined,
-		}));
+		});
 
-	const isInList = (field: string) =>
-		!Object.values(columnMapping).includes(field);
+	const isInList = (field: string) => !Object.values(value).includes(field);
 
 	return (
-		<VStack spacing={4} align="stretch" ref={dragAreaRef} width="sm">
+		<VStack
+			spacing={4}
+			align="stretch"
+			ref={dragAreaRef}
+			width="sm"
+			userSelect="none"
+		>
 			<Text>{`Below is a list of the columns we found in the file ${file.name}.`}</Text>
 			<Text>
 				Please select the columns that represent the artist name and title of
 				the song.
 			</Text>
 			{refs.map(({ type, ref }) => {
-				const value = columnMapping[type];
+				const column = value[type];
 				return (
 					<VStack key={type} alignItems="stretch">
 						<FormLabel>{`${type} column:`.toLocaleUpperCase()}</FormLabel>
@@ -143,75 +137,48 @@ export const SelectColumnsStep = ({
 							border="2px dashed gray"
 							textAlign="center"
 						>
-							{value ? (
-								<Card
-									as={motion.div}
-									layoutId={value}
-									drag="y"
+							{column ? (
+								<ColumnCard
+									column={column}
 									dragConstraints={dragAreaRef}
-									onDragEnd={(e) => handleDrop(e, value)}
-								>
-									<CardHeader>
-										<HStack>
-											<Text>{value}</Text>
-											<Spacer />
-											<IconButton
-												aria-label="remove"
-												variant="outline"
-												isRound
-												icon={<Icon as={LuX} />}
-												m={-2}
-												onClick={() => handleRemove(type)}
-											/>
-										</HStack>
-									</CardHeader>
-								</Card>
+									onDragEnd={handleDrop(column)}
+									onRemoveClick={() => handleRemove(type)}
+								/>
 							) : (
 								<Text
 									height={16}
-									color="gray.500"
+									color="chakra-subtle-text"
 								>{`Drop ${type} column here`}</Text>
 							)}
 						</Box>
 					</VStack>
 				);
 			})}
-			<Portal containerRef={dragAreaRef}>
-				<VStack spacing={4} alignItems="stretch" maxH={40} overflowY="auto">
-					{preview.headers.map((column) =>
-						isInList(column) ? (
-							<Portal key={column} containerRef={dragAreaRef}>
-								<Card
-									cursor="pointer"
-									layoutId={column}
-									mx={4}
-									as={motion.div}
-									drag="y"
-									dragConstraints={dragAreaRef}
-									dragSnapToOrigin
-									onDragEnd={(e) => handleDrop(e, column)}
-								>
-									<CardHeader>{column}</CardHeader>
-								</Card>
-							</Portal>
-						) : (
-							<Card
-								as={motion.div}
-								mx={4}
-								variants={{
-									hidden: { opacity: 0.0 },
-									visible: { opacity: 0.3 },
-								}}
-								initial="hidden"
-								animate="visible"
-								key={`${column}-placeholder`}
-							>
-								<CardHeader>{column}</CardHeader>
-							</Card>
-						),
-					)}
-				</VStack>
-			</Portal>
+			<VStack spacing={4} alignItems="stretch" px={4}>
+				{preview.headers.map((column) =>
+					isInList(column) ? (
+						<ColumnCard
+							key={column}
+							column={column}
+							dragConstraints={dragAreaRef}
+							onDragEnd={handleDrop(column)}
+						/>
+					) : (
+						<Card
+							as={motion.div}
+							variants={{
+								hidden: { opacity: 0.0 },
+								visible: { opacity: 0.3 },
+							}}
+							initial="hidden"
+							animate="visible"
+							key={`${column}-placeholder`}
+						>
+							<CardHeader>{column}</CardHeader>
+						</Card>
+					),
+				)}
+			</VStack>
 		</VStack>
 	);
 };
