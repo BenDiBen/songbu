@@ -37,12 +37,13 @@ export const getCsvImport = async (
 	}
 };
 
-export const useCsvImportQuery = (
+export const useGetCsvImportQuery = (
 	file: File | undefined,
 	mapping: SongBookColumnMapping,
 ) =>
 	useQuery({
 		queryKey: ["file", "import", file?.name, mapping.artist, mapping.title],
 		queryFn: (options) => getCsvImport(file, mapping, options),
+		refetchOnMount: false,
 		retry: false,
 	});
