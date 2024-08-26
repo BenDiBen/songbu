@@ -14,7 +14,7 @@ export interface StepDefinition {
 
 interface StepperProps {
 	steps: StepDefinition[];
-    lazy?: boolean;
+	lazy?: boolean;
 }
 
 export const Stepper = ({ steps, lazy = true }: StepperProps) => {
@@ -72,7 +72,8 @@ export const Stepper = ({ steps, lazy = true }: StepperProps) => {
 					key={step.id}
 					activeStepIndex={activeStepIndex}
 					stepIndex={index}
-					label={<Heading>{`Step ${index + 1}`}</Heading>}
+					label={step.label || <Heading>{`Step ${index + 1}`}</Heading>}
+					lazy={lazy}
 				>
 					{step.content}
 				</Step>

@@ -65,6 +65,8 @@ export const Step = ({
 			animate={isActive ? "active" : "todo"}
 			variants={CARD_VARIANTS}
 			borderRadius="10%"
+			p={8}
+			textAlign="center"
 		>
 			<Box position="absolute" top={8} right={8}>
 				<Fade in={stepIndex < activeStepIndex}>
@@ -73,6 +75,7 @@ export const Step = ({
 					</Tag>
 				</Fade>
 			</Box>
+			{label}
 			<Box
 				animate={isActive ? "active" : "hidden"}
 				as={motion.div}
