@@ -2,9 +2,11 @@
 
 import { useCsvPreview } from "@/services/file/get-csv-preview";
 import type { SongBookColumnMapping } from "@/types/song-book-column-mapping";
+import { toSongBookImport } from "@/types/song-book-import";
 import {
 	Box,
 	Card,
+	CardBody,
 	CardHeader,
 	FormLabel,
 	Spinner,
@@ -14,6 +16,7 @@ import {
 import { motion } from "framer-motion";
 import { type DragEvent, type RefObject, useEffect, useRef } from "react";
 import { ColumnCard } from "./column-card";
+import { SongBookPreview } from "./song-book-preview";
 
 const ARTIST_COLUMN_ALIASES = [
 	"artist",
@@ -110,6 +113,7 @@ export const SelectColumnsStep = ({
 		});
 
 	const isInList = (field: string) => !Object.values(value).includes(field);
+	const songBook = toSongBookImport(preview.rows, value);
 
 	return (
 		<VStack
@@ -119,11 +123,8 @@ export const SelectColumnsStep = ({
 			width="sm"
 			userSelect="none"
 		>
-			<Text>{`Below is a list of the columns we found in the file ${file.name}.`}</Text>
-			<Text>
-				Please select the columns that represent the artist name and title of
-				the song.
-			</Text>
+			<Text>{`Below is a list of the columns we found in the file ${file.name}. Select the columns that represent the artist name and title of
+				the song.`}</Text>
 			{refs.map(({ type, ref }) => {
 				const column = value[type];
 				return (
@@ -179,6 +180,11 @@ export const SelectColumnsStep = ({
 					),
 				)}
 			</VStack>
+			<Card mx={4}>
+				<CardBody>
+					<SongBookPreview songBook={songBook} />
+				</CardBody>
+			</Card>
 		</VStack>
 	);
 };
