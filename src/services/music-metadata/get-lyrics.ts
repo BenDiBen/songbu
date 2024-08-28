@@ -1,37 +1,45 @@
 import ky from "ky";
 
-export const getLyrics = async (url: string): Promise<string | null> => {
+export const getLyrics = async (
+	url: string,
+): Promise<
+	{ lineNumber: number; content: string; hasBreak: boolean }[] | null
+> => {
 	try {
-		const response = await ky.get(url, {
-			headers: {
-				"Access-Control-Allow-Origin": "*",
-			},
-			mode: "no-cors",
-		});
+		const response = await ky.get(url);
 		const html = await response.text();
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(html, "text/html");
 
-		// Try to get lyrics from the `.lyrics` div
-		let lyrics = doc.querySelector("div.lyrics")?.textContent?.trim() || "";
+		const lyricsContainer = doc.querySelectorAll(
+			'[data-lyrics-container="true"]',
+		);
 
-		if (lyrics) {
-			return lyrics;
-		}
+		const text: { lineNumber: number; content: string; hasBreak: boolean }[] =
+			[];
+		let lineNumber = 0;
 
-		lyrics = Array.from(doc.querySelectorAll('div[class^="Lyrics__Container"]'))
-			.map((container) => {
-				const snippet = container.innerHTML
-					.replace(/<br>/g, "\n")
-					.replace(/<(?!\s*br\s*\/?)[^>]+>/gi, "");
-				return new DOMParser()
-					.parseFromString(snippet, "text/html")
-					.documentElement.textContent?.trim();
-			})
-			.filter(Boolean)
-			.join("\n\n");
+		// Function to recursively extract text
+		const extractText = (node: Element | ChildNode | null) => {
+			const nodes = node?.childNodes ?? [];
+			for (let index = 0; index < nodes.length; index++) {
+				const child = nodes[index];
 
-		return lyrics ?? null;
+				if (child.nodeType === Node.TEXT_NODE && child.textContent) {
+					text.push({
+						lineNumber: lineNumber++,
+						content: child.textContent.trim() ?? "",
+						hasBreak: false,
+					});
+				} else if (child.nodeName === "A" || child.nodeName === "SPAN") {
+					extractText(child);
+				}
+			}
+		};
+
+		lyricsContainer.forEach(extractText);
+
+		return text ?? null;
 	} catch (error) {
 		console.error(error);
 
