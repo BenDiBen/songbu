@@ -6,6 +6,7 @@ import { Heading } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { SelectColumnsStep } from "./components/select-columns-step";
 import { SelectFileStep } from "./components/select-file-step";
+import { UploadStep } from "./components/upload-step";
 
 const accept = { "text/csv": [".csv"] };
 
@@ -45,7 +46,7 @@ const ImportCsvPage = () => {
 			{
 				id: 2,
 				label: <Heading>Upload your song book</Heading>,
-				content: <SelectFileStep file={file} onFileSelected={setFile} />,
+				content: <UploadStep file={file} columnMapping={columnMapping} />,
 				isIncomplete: !file,
 			},
 		];

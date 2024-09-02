@@ -44,8 +44,9 @@ export const ColumnCard = ({
 					<Spacer />
 					{onRemoveClick && (
 						<IconButton
+							colorScheme="whiteAlpha"
+							color="white"
 							aria-label="remove"
-							variant="outline"
 							isRound
 							icon={<Icon as={LuX} />}
 							m={-2}
