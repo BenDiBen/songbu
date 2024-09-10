@@ -1,14 +1,7 @@
+import type { StepDefinition } from "@/components/navigation/stepper";
 import type { SongBook } from "@/types/song-book";
 import type { SongBookImport } from "@/types/song-book-import";
 import type { Dispatch } from "react";
-
-export type ImportWizardStepType = "import" | "enrich" | "upload";
-
-export type ImportWizardStep = {
-	type: ImportWizardStepType;
-	label: string;
-	description: string;
-};
 
 export type ImportType = "songbookslive" | "csv" | "folder";
 
@@ -17,7 +10,7 @@ export type ImportSource =
 	| { type: "csv" | "folder"; source: { path: string } };
 
 export type ImportWizardState = {
-	steps: ImportWizardStep[];
+	steps: StepDefinition[];
 	importType: ImportType;
 	canGoToNext: boolean;
 } & (

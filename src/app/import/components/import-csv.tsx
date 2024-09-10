@@ -1,5 +1,5 @@
 import { FileDragAndDrop } from "@/components/forms/file-drag-and-drop";
-import { useCsvImportQuery } from "@/services/file/get-csv-import-query";
+import { useGetCsvImportQuery } from "@/services/file/get-csv-import-query";
 import { useCsvPreview } from "@/services/file/get-csv-preview";
 import type { SongBookColumnMapping } from "@/types/song-book-column-mapping";
 import { VStack } from "@chakra-ui/layout";
@@ -42,7 +42,7 @@ export const ImportCsv = ({ state }: ImportWizardProps) => {
 		data: songBook,
 		error,
 		isLoading,
-	} = useCsvImportQuery(file, columnMapping);
+	} = useGetCsvImportQuery(file, columnMapping);
 
 	useEffect(() => {
 		if (!preview?.headers) {
@@ -76,7 +76,6 @@ export const ImportCsv = ({ state }: ImportWizardProps) => {
 	return (
 		<VStack gap={8}>
 			<FileDragAndDrop
-				name="file"
 				accept={accept}
 				onChange={handleFileSelect}
 				value={file}

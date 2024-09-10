@@ -2,7 +2,6 @@ import { useReducer } from "react";
 import type {
 	ImportWizardAction,
 	ImportWizardState,
-	ImportWizardStep,
 } from "./types";
 
 const steps: ImportWizardStep[] = [
