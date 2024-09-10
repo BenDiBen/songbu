@@ -11,6 +11,8 @@ const copyCookies = (
 	cookiesToSet.forEach(({ name, value }) => target.cookies.set(name, value));
 };
 
+const publicPaths = ["/login", "/sign-in", "/reset-password"];
+
 export const updateSession = async (request: NextRequest) => {
 	let supabaseResponse = NextResponse.next({
 		request,
@@ -48,9 +50,9 @@ export const updateSession = async (request: NextRequest) => {
 
 	if (
 		!user &&
-		!request.nextUrl.pathname.startsWith("/login") &&
-		!request.nextUrl.pathname.startsWith("/signup") &&
-		!request.nextUrl.pathname.startsWith("/reset-password")
+		!publicPaths.some((publicPath) =>
+			request.nextUrl.pathname.startsWith(publicPath),
+		)
 	) {
 		// no user, potentially respond by redirecting the user to the login page
 		const url = request.nextUrl.clone();
