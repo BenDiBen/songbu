@@ -26,6 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 						display="flex"
 						alignItems="stretch"
 						justifyContent="stretch"
+						layerStyle="backdrop"
 					>
 						{children}
 					</Box>

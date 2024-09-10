@@ -1,16 +1,12 @@
-import {
-	theme as baseTheme,
-	extendTheme,
-	withDefaultColorScheme,
-} from "@chakra-ui/react";
+import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import { colors } from "./colors";
 import { components } from "./components";
+import { layerStyles } from "./layer-styles";
 import { sizes } from "./sizes";
 
 export const theme = extendTheme(
 	{
-		colors: {
-			primary: { ...baseTheme.colors.green },
-		},
+		colors,
 		components,
 		config: {
 			initialColorMode: "dark",
@@ -18,7 +14,8 @@ export const theme = extendTheme(
 		defaultProps: {
 			colorScheme: "primary",
 		},
+		layerStyles,
 		sizes,
 	},
-	withDefaultColorScheme({ colorScheme: "primary" }),
+	withDefaultColorScheme({ colorScheme: "brand" }),
 );

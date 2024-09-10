@@ -6,8 +6,14 @@ const appVariant = defineStyle({
 	px: { base: 4, sm: 8 },
 });
 
+const appThinVariant = defineStyle({
+	...appVariant,
+	maxW: { base: "100%", sm: "lg" },
+});
+
 export const Container = defineStyleConfig({
 	variants: {
 		app: appVariant,
+		"app-thin": appThinVariant,
 	},
 });
