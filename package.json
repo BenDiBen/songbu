@@ -14,6 +14,7 @@
 		"@chakra-ui/react": "^2.8.2",
 		"@emotion/react": "^11.13.0",
 		"@emotion/styled": "^11.13.0",
+		"@hookform/resolvers": "^3.9.0",
 		"@prisma/client": "^5.19.0",
 		"@supabase/ssr": "^0.5.1",
 		"@supabase/supabase-js": "^2.45.2",
@@ -29,7 +30,7 @@
 		"react": "^18",
 		"react-dom": "^18",
 		"react-dropzone": "^14.2.3",
-		"react-hook-form": "^7.52.2",
+		"react-hook-form": "^7.53.0",
 		"react-icons": "^5.3.0",
 		"tinycolor2": "^1.6.0",
 		"zod": "^3.23.8"

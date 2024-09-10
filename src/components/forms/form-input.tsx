@@ -6,34 +6,40 @@ import {
 	FormLabel,
 } from "@chakra-ui/form-control";
 import { Input, type InputProps } from "@chakra-ui/input";
-import type { FieldErrors, FieldValues } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
-interface FormInputProps<TData extends FieldValues> {
-	errors?: FieldErrors<TData>;
+interface FormInputProps {
 	label: string;
-	name: keyof TData;
+	name: string;
 	helperText?: string;
 	inputProps?: InputProps;
 }
 
-export const FormInput = <TData extends FieldValues>({
-	errors = {},
+export const FormInput = ({
 	label,
 	name,
 	helperText,
 	inputProps,
-}: FormInputProps<TData>) => {
+}: FormInputProps) => {
+	const context = useFormContext();
+	const errors = context?.formState.errors ?? {};
 	const isError = !!errors[name];
 	const errorMessage = errors[name]?.message;
+	console.log({
+		errors,
+		isError,
+		errorMessage,
+		isString: isString(errorMessage),
+	});
 
 	return (
 		<FormControl isInvalid={isError}>
 			<FormLabel>{label}</FormLabel>
 			<Input {...inputProps} name={name.toString()} />
-			{isError
+			{!isError
 				? helperText && <FormHelperText>{helperText}</FormHelperText>
 				: isString(errorMessage) && (
-						<FormErrorMessage>{errorMessage}</FormErrorMessage>
+						<FormErrorMessage fontSize="sm">{errorMessage}</FormErrorMessage>
 					)}
 		</FormControl>
 	);
