@@ -22,7 +22,7 @@ const schema = z.object({
 });
 
 const LoginPage = () => {
-	const form = useForm({
+	const form = useForm<z.output<typeof schema>>({
 		resolver: zodResolver(schema),
 	});
 
