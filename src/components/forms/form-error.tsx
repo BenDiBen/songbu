@@ -4,7 +4,7 @@ import { useFormStateValue } from "@/components/forms/form-state-provider";
 import { Alert, AlertIcon, AlertTitle } from "@chakra-ui/alert";
 
 export const FormError = () => {
-	const formState = useFormStateValue();
+	const { formState } = useFormStateValue();
 
 	if (formState?.type === "error") {
 		return (

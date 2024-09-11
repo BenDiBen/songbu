@@ -2,17 +2,17 @@
 
 import { Button, type ButtonProps } from "@chakra-ui/button";
 import { Spinner } from "@chakra-ui/spinner";
-import { useFormStatus } from "react-dom";
+import { useFormStateValue } from "./form-state-provider";
 
 export const SubmitButton = ({
 	children = "Submit",
 	...props
 }: ButtonProps) => {
-	const { pending } = useFormStatus();
+	const { pending } = useFormStateValue();
 	return (
 		<Button
 			rightIcon={pending ? <Spinner /> : undefined}
-			disabled={pending}
+			isDisabled={pending}
 			type="submit"
 			{...props}
 		>

@@ -10,32 +10,25 @@ import { useFormContext } from "react-hook-form";
 
 interface FormInputProps {
 	label: string;
-	name: string;
 	helperText?: string;
 	inputProps?: InputProps;
 }
 
 export const FormInput = ({
 	label,
-	name,
 	helperText,
 	inputProps,
 }: FormInputProps) => {
 	const context = useFormContext();
-	const errors = context?.formState.errors ?? {};
+	const errors = context?.formState?.errors ?? {};
+	const name = inputProps?.name ?? "";
 	const isError = !!errors[name];
 	const errorMessage = errors[name]?.message;
-	console.log({
-		errors,
-		isError,
-		errorMessage,
-		isString: isString(errorMessage),
-	});
 
 	return (
 		<FormControl isInvalid={isError}>
 			<FormLabel>{label}</FormLabel>
-			<Input {...inputProps} name={name.toString()} />
+			<Input {...inputProps} />
 			{!isError
 				? helperText && <FormHelperText>{helperText}</FormHelperText>
 				: isString(errorMessage) && (

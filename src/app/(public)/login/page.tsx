@@ -27,12 +27,10 @@ const LoginPage = () => {
 					<Stack minHeight="md" justifyContent="center">
 						<FormInput
 							label="Email"
-							name="email"
 							inputProps={{ width: "xs", ...form.register("email") }}
 						/>
 						<FormInput
 							label="Password"
-							name="password"
 							inputProps={{
 								width: "xs",
 								type: "password",
