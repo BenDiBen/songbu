@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Icon, type IconProps } from "@chakra-ui/react";
 
 type LogoProps = Omit<IconProps, "children"> & {
