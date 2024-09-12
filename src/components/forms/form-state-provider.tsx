@@ -1,22 +1,15 @@
 "use client";
 
-import { useBusy } from "@/hooks/use-busy";
 import type { FormState } from "@/types/form-state";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	type FormEvent,
-	type PropsWithChildren,
-	createContext,
-	useContext,
-	useState,
-} from "react";
+import { type PropsWithChildren, createContext, useContext } from "react";
+import { useFormState } from "react-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import type { z } from "zod";
 
 const FormStateContext = createContext<{
 	formState: FormState;
-	pending: boolean;
-}>({ formState: undefined, pending: false });
+}>({ formState: undefined });
 
 interface FormStateProviderProps<TData extends z.ZodRawShape>
 	extends PropsWithChildren {
@@ -25,26 +18,19 @@ interface FormStateProviderProps<TData extends z.ZodRawShape>
 }
 
 export const FormStateProvider = <TData extends z.ZodRawShape>({
-	action,
+	action: inputAction,
 	children,
 	schema,
 }: FormStateProviderProps<TData>) => {
 	const form = useForm<z.output<typeof schema>>({
 		resolver: zodResolver(schema),
 	});
-	const [formState, setFormState] = useState<FormState>();
-	const [pending, withBusy] = useBusy();
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		form.handleSubmit(async (data) => {
-			const result = await withBusy(action(formState, new FormData()));
-			setFormState(result);
-		})(e);
-	};
+	const [formState, action] = useFormState(inputAction, undefined);
 
 	return (
-		<FormStateContext.Provider value={{ formState, pending }}>
+		<FormStateContext.Provider value={{ formState }}>
 			<FormProvider {...form}>
-				<form onSubmit={handleSubmit}>{children}</form>
+				<form action={action}>{children}</form>
 			</FormProvider>
 		</FormStateContext.Provider>
 	);
