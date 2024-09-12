@@ -17,17 +17,14 @@ const SignInPage = () => {
 					<Stack>
 						<FormInput
 							label="Email"
-							name="email"
 							inputProps={{ width: "xs", type: "email", isRequired: true }}
 						/>
 						<FormInput
 							label="Password"
-							name="password"
 							inputProps={{ width: "xs", type: "password", isRequired: true }}
 						/>
 						<FormInput
 							label="Confirm Password"
-							name="confirm-password"
 							inputProps={{ width: "xs", type: "password", isRequired: true }}
 						/>
 					</Stack>

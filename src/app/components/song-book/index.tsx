@@ -26,13 +26,13 @@ interface SongBookProps {
 	songBook: SongBookType;
 }
 
-export const SongBook = ({ songBook }: SongBookProps) => {
+export const SongBook = ({ songBook: { artists } }: SongBookProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const [size] = useToken("sizes", ["8"]);
 	const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
 	const rowVirtualizer = useVirtualizer({
-		count: songBook.length,
+		count: artists.length,
 		getScrollElement: () => ref.current,
 		estimateSize: () => remToPixels(size),
 		overscan: 0,
@@ -41,7 +41,7 @@ export const SongBook = ({ songBook }: SongBookProps) => {
 	const virtualItems = rowVirtualizer.getVirtualItems();
 
 	const stickyIndex = virtualItems[0]?.index;
-	const stickyItem = expanded[stickyIndex] ? songBook[stickyIndex] : undefined;
+	const stickyItem = expanded[stickyIndex] ? artists[stickyIndex] : undefined;
 
 	return (
 		<Box
@@ -121,11 +121,11 @@ export const SongBook = ({ songBook }: SongBookProps) => {
 						>
 							<Icon as={LuUser} color="chakra-subtle-text" />
 							<Text isTruncated textOverflow="ellipsis" as="b">
-								{songBook[virtualRow.index].name}
+								{artists[virtualRow.index].name}
 							</Text>
 							<Spacer />
 							<IconButton
-								aria-label={`expand ${songBook[virtualRow.index].name}`}
+								aria-label={`expand ${artists[virtualRow.index].name}`}
 								size="xs"
 								isRound
 								icon={
@@ -140,7 +140,7 @@ export const SongBook = ({ songBook }: SongBookProps) => {
 							/>
 						</HStack>
 						{expanded[virtualRow.index] &&
-							songBook[virtualRow.index].songs.map(({ title }) => (
+							artists[virtualRow.index].songs.map(({ title }) => (
 								<HStack key={title} px={2} py={1} w="100%" maxW="100%">
 									<Icon ml={2} as={LuMusic} color="chakra-subtle-text" />
 									<Text isTruncated textOverflow="ellipsis">

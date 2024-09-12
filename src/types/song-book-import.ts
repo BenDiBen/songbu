@@ -10,19 +10,22 @@ export const toSongBookImport = (
 	{ artist, title }: SongBookColumnMapping,
 ): SongBook => {
 	if (!artist || !title) {
-		return [];
+		return { name: "Import", artists: [] };
 	}
 
 	const getArtist = pathOr("", [artist]);
 	const getTitle = path<string>([title]);
 	const groups = toPairs(groupBy(getArtist, data));
 
-	return groups.map(([artist, items = []]) => ({
-		name: artist,
-		songs: pipe(
-			map(getTitle),
-			filter(is(String)),
-			map((title) => ({ title })),
-		)(items),
-	}));
+	return {
+		name: "Import",
+		artists: groups.map(([artist, items = []]) => ({
+			name: artist,
+			songs: pipe(
+				map(getTitle),
+				filter(is(String)),
+				map((title) => ({ title })),
+			)(items),
+		})),
+	};
 };

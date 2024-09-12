@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export const GET = async ({ params }: { params: { id: string } }) => {
-	const { id } = params;
+export const GET = async () => {
+	const id = "test";
 
 	try {
 		const songbook = await prisma.songbook.findUnique({

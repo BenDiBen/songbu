@@ -1,40 +1,30 @@
-"use client";
-
-import { login } from "@/actions/login";
 import { FormError } from "@/components/forms/form-error";
 import { FormInput } from "@/components/forms/form-input";
-import { FormStateProvider } from "@/components/forms/form-state-provider";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { Logo } from "@/components/media/logo";
-import { type LoginRequest, schema } from "@/types/requests/login";
+import { Link } from "@/components/navigation/link";
 import { Button } from "@chakra-ui/button";
 import { Container, Divider, HStack, Stack, Text } from "@chakra-ui/layout";
-import { Link } from "@chakra-ui/next-js";
-import { zodResolver } from "@hookform/resolvers/zod";
 import NextLink from "next/link";
-import { useForm } from "react-hook-form";
+import { LoginFormProvider } from "./components/login-form-provider";
 
 const LoginPage = () => {
-	const form = useForm<LoginRequest>({
-		resolver: zodResolver(schema),
-	});
-
 	return (
 		<Container variant="app-thin" display="flex" alignItems="center">
-			<FormStateProvider action={login} form={form}>
+			<LoginFormProvider>
 				<Stack spacing={8} alignItems="center">
 					<Logo transform={{ base: "scale(0.75, 0.75)", md: "unset" }} />
 					<Stack minHeight="md" justifyContent="center">
 						<FormInput
 							label="Email"
-							inputProps={{ width: "xs", ...form.register("email") }}
+							inputProps={{ width: "xs", name: "email" }}
 						/>
 						<FormInput
 							label="Password"
 							inputProps={{
 								width: "xs",
 								type: "password",
-								...form.register("password"),
+								name: "password",
 							}}
 						/>
 						<FormError />
@@ -61,7 +51,7 @@ const LoginPage = () => {
 						</NextLink>
 					</Stack>
 				</Stack>
-			</FormStateProvider>
+			</LoginFormProvider>
 		</Container>
 	);
 };

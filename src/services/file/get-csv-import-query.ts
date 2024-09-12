@@ -11,7 +11,7 @@ export const getCsvImport = async (
 	{ artist, title }: SongBookColumnMapping,
 	options: { signal: AbortSignal },
 ): Promise<SongBook> => {
-	const result: SongBook = [];
+	const result: SongBook = { name: "Import", artists: [] };
 
 	if (!artist || !title) {
 		return result;
@@ -27,7 +27,7 @@ export const getCsvImport = async (
 			const songs = pipe(map(getTitle), filter(is(String)), map(toSong))(items);
 
 			if (artist && songs.length > 0) {
-				result.push({ name: artist, songs });
+				result.artists.push({ name: artist, songs });
 			}
 		});
 

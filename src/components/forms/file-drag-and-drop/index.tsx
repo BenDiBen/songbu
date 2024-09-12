@@ -96,7 +96,7 @@ export const FileDragAndDrop = forwardRef(
 						<Box display="none">
 							<input
 								ref={(e) => {
-									if (ref) {
+									if (ref && typeof ref === "function") {
 										ref(e);
 									}
 

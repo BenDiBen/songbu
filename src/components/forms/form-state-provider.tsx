@@ -2,61 +2,49 @@
 
 import { useBusy } from "@/hooks/use-busy";
 import type { FormState } from "@/types/form-state";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	type FormEvent,
 	type PropsWithChildren,
 	createContext,
 	useContext,
-	useRef,
 	useState,
 } from "react";
-import {
-	type FieldValues,
-	FormProvider,
-	type UseFormReturn,
-} from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import type { z } from "zod";
 
 const FormStateContext = createContext<{
 	formState: FormState;
 	pending: boolean;
 }>({ formState: undefined, pending: false });
 
-interface FormStateProviderProps<
-	TData extends FieldValues = Record<string, unknown>,
-> extends PropsWithChildren {
+interface FormStateProviderProps<TData extends z.ZodRawShape>
+	extends PropsWithChildren {
 	action: (formState: FormState, formData: FormData) => Promise<FormState>;
-	form: UseFormReturn<TData, unknown, undefined>;
+	schema: z.ZodObject<TData>;
 }
 
-export const FormStateProvider = <
-	TData extends FieldValues = Record<string, unknown>,
->({
+export const FormStateProvider = <TData extends z.ZodRawShape>({
 	action,
 	children,
-	form,
+	schema,
 }: FormStateProviderProps<TData>) => {
+	const form = useForm<z.output<typeof schema>>({
+		resolver: zodResolver(schema),
+	});
 	const [formState, setFormState] = useState<FormState>();
-	const formRef = useRef<HTMLFormElement>(null);
 	const [pending, withBusy] = useBusy();
-	const handleSubmit =
-		(form: UseFormReturn<TData, unknown, undefined>) =>
-		(e: FormEvent<HTMLFormElement>) => {
-			const { current } = formRef;
-
-			if (current) {
-				form.handleSubmit(async (data) => {
-					const result = await withBusy(action(formState, new FormData()));
-					setFormState(result);
-				})(e);
-			}
-		};
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		form.handleSubmit(async (data) => {
+			const result = await withBusy(action(formState, new FormData()));
+			setFormState(result);
+		})(e);
+	};
 
 	return (
 		<FormStateContext.Provider value={{ formState, pending }}>
 			<FormProvider {...form}>
-				<form ref={formRef} onSubmit={handleSubmit(form)}>
-					{children}
-				</form>
+				<form onSubmit={handleSubmit}>{children}</form>
 			</FormProvider>
 		</FormStateContext.Provider>
 	);

@@ -1,3 +1,5 @@
+"use client";
+
 import { isString } from "@/utils/types/is-string";
 import {
 	FormControl,
@@ -28,7 +30,7 @@ export const FormInput = ({
 	return (
 		<FormControl isInvalid={isError}>
 			<FormLabel>{label}</FormLabel>
-			<Input {...inputProps} />
+			<Input {...inputProps} {...context?.register(name)} />
 			{!isError
 				? helperText && <FormHelperText>{helperText}</FormHelperText>
 				: isString(errorMessage) && (
