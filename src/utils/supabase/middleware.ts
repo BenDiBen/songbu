@@ -11,7 +11,7 @@ const copyCookies = (
 	cookiesToSet.forEach(({ name, value }) => target.cookies.set(name, value));
 };
 
-const publicPaths = ["/login", "/sign-in", "/reset-password"];
+const publicPaths = ["/login", "/signup", "/reset-password"];
 
 export const updateSession = async (request: NextRequest) => {
 	let supabaseResponse = NextResponse.next({

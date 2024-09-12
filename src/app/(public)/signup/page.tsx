@@ -1,17 +1,18 @@
+"use client";
+
 import { FormError } from "@/components/forms/form-error";
 import { FormInput } from "@/components/forms/form-input";
 import { SubmitButton } from "@/components/forms/submit-button";
 import { Logo } from "@/components/media/logo";
-import { Link } from "@/components/navigation/link";
 import { Button } from "@chakra-ui/button";
 import { Container, Divider, HStack, Stack, Text } from "@chakra-ui/layout";
 import NextLink from "next/link";
-import { LoginFormProvider } from "./components/login-form-provider";
+import { SignUpFormProvider } from "./components/login-form-provider";
 
-const LoginPage = () => {
+const SignUpPage = () => {
 	return (
 		<Container variant="app-thin" display="flex" alignItems="center">
-			<LoginFormProvider>
+			<SignUpFormProvider>
 				<Stack spacing={8} alignItems="center">
 					<Logo transform={{ base: "scale(0.75, 0.75)", md: "unset" }} />
 					<Stack minHeight="md" justifyContent="center">
@@ -27,15 +28,15 @@ const LoginPage = () => {
 								name: "password",
 							}}
 						/>
+						<FormInput
+							label="Repeat Password"
+							inputProps={{
+								width: "xs",
+								type: "password",
+								name: "repeatPassword",
+							}}
+						/>
 						<FormError />
-						<Link
-							href="/reset-password"
-							fontWeight="bold"
-							color="chakra-subtle-text"
-							fontSize="sm"
-						>
-							Forgot your password?
-						</Link>
 					</Stack>
 					<Stack width="xs" spacing={6}>
 						<SubmitButton>Log In</SubmitButton>
@@ -51,9 +52,9 @@ const LoginPage = () => {
 						</NextLink>
 					</Stack>
 				</Stack>
-			</LoginFormProvider>
+			</SignUpFormProvider>
 		</Container>
 	);
 };
 
-export default LoginPage;
+export default SignUpPage;
