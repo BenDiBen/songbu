@@ -2,7 +2,12 @@
 
 import type { FormState } from "@/types/form-state";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type PropsWithChildren, createContext, useContext } from "react";
+import {
+	type PropsWithChildren,
+	type SyntheticEvent,
+	createContext,
+	useContext,
+} from "react";
 import { useFormState } from "react-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import type { z } from "zod";
@@ -27,10 +32,19 @@ export const FormStateProvider = <TData extends z.ZodRawShape>({
 	});
 	const [formState, action] = useFormState(inputAction, undefined);
 
+	const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
+		const isValid = await form.trigger();
+		if (!isValid) {
+			e.preventDefault();
+		}
+	};
+
 	return (
 		<FormStateContext.Provider value={{ formState }}>
 			<FormProvider {...form}>
-				<form action={action}>{children}</form>
+				<form action={action} onSubmitCapture={handleSubmit}>
+					{children}
+				</form>
 			</FormProvider>
 		</FormStateContext.Provider>
 	);
