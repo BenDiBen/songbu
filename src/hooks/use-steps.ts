@@ -1,21 +1,28 @@
 import { useSteps as useStepState } from "@chakra-ui/stepper";
-import { type ReactNode, useCallback, useEffect, useState } from "react";
+import { is } from "ramda";
+import {
+	type Dispatch,
+	type ReactNode,
+	type SetStateAction,
+	useCallback,
+	useEffect,
+	useState,
+} from "react";
 import type { ZodIssue, ZodType } from "zod";
 
 export interface StepDefinitionProps<TState> {
 	errors?: ZodIssue[];
 	state: TState;
-	onStateChange: (state: Partial<TState>) => void;
+	onStateChange: Dispatch<SetStateAction<TState>>;
 	onChange: <TProp extends keyof TState>(
 		name: TProp,
-	) => (value: TState[TProp]) => void;
+	) => (valueOrUpdater: SetStateAction<TState[TProp]>) => void;
 }
 
 export interface StepDefinition<TState> {
 	title: string;
 	description: string;
 	component: (props: StepDefinitionProps<TState>) => ReactNode;
-	isComplete?: (props: TState) => boolean;
 	schema?: ZodType<TState>;
 }
 
@@ -38,10 +45,12 @@ export const useSteps = <TState>(
 	const activeStep = steps[activeStepIndex];
 	const onChange = useCallback(
 		<TProp extends keyof TState>(name: TProp) =>
-			(value: TState[TProp]) =>
+			(valueOrUpdater: SetStateAction<TState[TProp]>) =>
 				setState((prev) => ({
 					...prev,
-					[name]: value,
+					[name]: is(Function, valueOrUpdater)
+						? valueOrUpdater(prev[name])
+						: valueOrUpdater,
 				})),
 		[],
 	);
@@ -58,6 +67,34 @@ export const useSteps = <TState>(
 		goToNext();
 	}, [goToNext, activeStepIndex, steps, state]);
 
+	const goToStep = useCallback(
+		(initialTargetIndex: number) => {
+			let targetIndex = initialTargetIndex;
+
+			if (targetIndex <= activeStepIndex) {
+				setActiveStep(targetIndex);
+			}
+
+			for (let index = activeStepIndex; index < targetIndex; index++) {
+				console.log(`Processing ${index}`);
+				const hasErrors =
+					steps[index].schema?.safeParse(state).success === false;
+
+				if (hasErrors) {
+					console.log(`${index} is incomplete`);
+					targetIndex = index;
+					const errors =
+						steps[index].schema?.safeParse(state).error?.issues ?? [];
+					setErrors(errors);
+					return;
+				}
+			}
+
+			setActiveStep(targetIndex);
+		},
+		[steps, setActiveStep, activeStepIndex, state],
+	);
+
 	useEffect(() => {
 		setErrors((prevErrors) =>
 			prevErrors.length > 0
@@ -66,16 +103,23 @@ export const useSteps = <TState>(
 		);
 	}, [steps, state, activeStepIndex]);
 
+	const complete = steps.map(
+		(step, index) =>
+			index < activeStepIndex ||
+			step.schema === undefined ||
+			step.schema.safeParse(state).success,
+	);
+
 	return {
 		activeStep,
 		activeStepIndex,
 		errors,
 		goToNext: goToNextCallback,
 		goToPrevious,
-		goToStep: setActiveStep,
+		goToStep: goToStep,
 		hasNext: activeStepIndex < steps.length - 1,
 		hasPrevious: activeStepIndex > 0,
-		isComplete: !activeStep.isComplete || activeStep.isComplete(state),
+		complete,
 		onChange,
 		setState,
 		state,

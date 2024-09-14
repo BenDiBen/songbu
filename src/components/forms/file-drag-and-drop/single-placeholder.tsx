@@ -2,7 +2,7 @@
 
 import { Box, Button, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import type { MouseEvent } from "react";
-import { LuCheck, LuFileSpreadsheet, LuXCircle } from "react-icons/lu";
+import { LuCheck, LuFileSpreadsheet } from "react-icons/lu";
 
 interface SinglePlaceholderProps {
 	file: File;
@@ -40,11 +40,7 @@ export const SinglePlaceholder = ({
 				<Text as="strong">{file.name}</Text>
 			</HStack>
 			{onRemove && (
-				<Button
-					variant="outline"
-					leftIcon={<LuXCircle />}
-					onClick={handleRemove}
-				>
+				<Button variant="outline" colorScheme="gray" onClick={handleRemove}>
 					Remove
 				</Button>
 			)}

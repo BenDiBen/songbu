@@ -15,7 +15,7 @@ import {
 	StepStatus,
 	StepTitle,
 	Stepper,
-	useBoolean,
+	Text,
 } from "@chakra-ui/react";
 import { z } from "zod";
 import { SelectColumnsStep } from "./select-columns-step";
@@ -27,7 +27,6 @@ const steps: StepDefinition<CsvImportStepperState>[] = [
 		title: "Source",
 		description: "Select your songs",
 		component: SelectFileStep,
-		isComplete: ({ file }) => !!file,
 		schema: z.object({
 			file: z.instanceof(File, {
 				message: "Please select a file",
@@ -38,11 +37,10 @@ const steps: StepDefinition<CsvImportStepperState>[] = [
 		title: "Mapping",
 		description: "Map your song data",
 		component: SelectColumnsStep,
-		isComplete: ({ mapping }) => !!mapping,
 		schema: z.object({
 			mapping: z.object({
-				artist: z.string(),
-				title: z.string(),
+				artist: z.string().min(1, "Required"),
+				title: z.string().min(1, "Required"),
 			}),
 		}),
 	},
@@ -69,7 +67,8 @@ export const ImportStepper = () => {
 		onChange,
 		state,
 		setState,
-	} = useSteps(steps, {});
+		complete,
+	} = useSteps(steps, { file: undefined, mapping: undefined, name: undefined });
 
 	return (
 		<Stack
@@ -82,7 +81,15 @@ export const ImportStepper = () => {
 			<Stepper index={activeStepIndex} width="full" maxWidth="4xl">
 				{steps.map((step, index) => (
 					<Step key={step.title}>
-						<StepIndicator onClick={() => goToStep(index)}>
+						<StepIndicator
+							cursor={
+								complete.slice(0, index).every((x) => x) ||
+								index === activeStepIndex
+									? "pointer"
+									: "not-allowed"
+							}
+							onClick={() => goToStep(index)}
+						>
 							<StepStatus
 								complete={<StepIcon />}
 								incomplete={<StepNumber />}
@@ -109,6 +116,7 @@ export const ImportStepper = () => {
 					onChange={onChange}
 				/>
 			</Stack>
+			<Text>{JSON.stringify(state)}</Text>
 			<HStack>
 				{hasPrevious && (
 					<Button width={32} variant="secondary" onClick={goToPrevious}>

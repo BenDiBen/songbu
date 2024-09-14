@@ -65,21 +65,22 @@ export const SelectColumnsStep = ({
 
 	useEffect(() => {
 		if (!preview?.headers) {
-			onChange("mapping")(undefined);
-		} else {
-			onChange("mapping")({
-				artist: preview.headers.find((header) =>
-					ARTIST_COLUMN_ALIASES.some((alias) =>
-						header.toLocaleLowerCase().includes(alias),
-					),
-				),
-				title: preview.headers.find((header) =>
-					TITLE_COLUMN_ALIASES.some((alias) =>
-						header.toLocaleLowerCase().includes(alias),
-					),
-				),
-			});
+			return;
 		}
+
+		onChange("mapping")((prev) => ({
+			artist: preview.headers.find((header) =>
+				ARTIST_COLUMN_ALIASES.some((alias) =>
+					header.toLocaleLowerCase().includes(alias),
+				),
+			),
+			title: preview.headers.find((header) =>
+				TITLE_COLUMN_ALIASES.some((alias) =>
+					header.toLocaleLowerCase().includes(alias),
+				),
+			),
+			...prev,
+		}));
 	}, [preview?.headers, onChange]);
 
 	const dragAreaRef = useRef<HTMLDivElement>(null);
