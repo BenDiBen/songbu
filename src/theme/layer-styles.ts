@@ -26,6 +26,10 @@ const dropArea = defineStyle({
 		borderColor: "chakra-subtle-text",
 		shadow: "0px 0px 50px -20px var(--chakra-colors-brand-300)",
 	},
+	_invalid: {
+		border: "2px solid",
+		borderColor: "var(--chakra-colors-red-300)",
+	},
 });
 
 //--chakra-colors-twitter-500

@@ -4,6 +4,7 @@ import {
 	Box,
 	Center,
 	Icon,
+	Input,
 	Text,
 	VStack,
 	useColorModeValue,
@@ -23,6 +24,7 @@ import { SinglePlaceholder } from "./single-placeholder";
 
 interface FileDragAndDropProps {
 	accept: Accept;
+	invalid?: boolean;
 	multiple?: boolean;
 	onChange?: (files: File[]) => void;
 	value?: File | File[];
@@ -30,7 +32,13 @@ interface FileDragAndDropProps {
 
 export const FileDragAndDrop = forwardRef(
 	(
-		{ value, accept, multiple = false, onChange }: FileDragAndDropProps,
+		{
+			invalid = false,
+			value,
+			accept,
+			multiple = false,
+			onChange,
+		}: FileDragAndDropProps,
 		ref,
 	) => {
 		const inputRef = useRef<HTMLInputElement | null>(null);
@@ -57,6 +65,18 @@ export const FileDragAndDrop = forwardRef(
 
 		return (
 			<>
+				<Input
+					ref={(e) => {
+						if (ref && typeof ref === "function") {
+							ref(e);
+						}
+
+						inputRef.current = e;
+					}}
+					type="file"
+					{...state?.getInputProps()}
+					size="unset"
+				/>
 				<Center
 					display={state?.isDragActive ? "flex" : "none"}
 					position="absolute"
@@ -81,24 +101,12 @@ export const FileDragAndDrop = forwardRef(
 				<Box
 					as="button"
 					h="unset"
+					aria-invalid={invalid}
 					width="full"
 					height="xs"
 					onClick={handleClick}
 					layerStyle="drop-area"
 				>
-					<Box display="none">
-						<input
-							ref={(e) => {
-								if (ref && typeof ref === "function") {
-									ref(e);
-								}
-
-								inputRef.current = e;
-							}}
-							type="file"
-							{...state?.getInputProps()}
-						/>
-					</Box>
 					<Center h="full">
 						{value && !Array.isArray(value) && (
 							<SinglePlaceholder

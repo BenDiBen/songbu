@@ -8,6 +8,8 @@ import {
 	Box,
 	Card,
 	CardHeader,
+	FormControl,
+	FormErrorMessage,
 	FormLabel,
 	Spinner,
 	Stack,
@@ -46,9 +48,17 @@ const intersectsWith = (ref: RefObject<HTMLDivElement>, event: DragEvent) => {
 };
 
 export const SelectColumnsStep = ({
+	errors,
 	state: { mapping, file },
 	onChange,
 }: StepDefinitionProps<CsvImportStepperState>) => {
+	const artistError = errors?.find(
+		(error) => error.path.join(".") === "mapping.artist",
+	)?.message;
+	const titleError = errors?.find(
+		(error) => error.path.join(".") === "mapping.title",
+	)?.message;
+
 	const { data: preview } = useCsvPreview(file);
 
 	const value = mapping ?? { artist: undefined, title: undefined };
@@ -118,43 +128,51 @@ export const SelectColumnsStep = ({
 			<Text color="chakra-subtle-text">
 				Select the columns that represent the artist name and title of the song.
 			</Text>
-			<Stack>
+			<Stack spacing={4}>
 				{refs.map(({ type, ref }) => {
 					const column = value[type];
+					const error = errors?.find(
+						(error) => error.path.join(".") === `mapping.${type}`,
+					)?.message;
 					return (
-						<Stack key={type} alignItems="stretch">
-							<FormLabel m={0}>{`${type
-								.split(" ")
-								.map(
-									(word) => (word[0] ?? "").toLocaleUpperCase() + word.slice(1),
-								)
-								.join(" ")} Column:`}</FormLabel>
-							<Box
-								as={motion.div}
-								p={4}
-								ref={ref}
-								textAlign="center"
-								layerStyle="drop-area"
-							>
-								{column ? (
-									<ColumnCard
-										column={column}
-										dragConstraints={dragAreaRef}
-										onDragEnd={handleDrop(column)}
-										onRemoveClick={() => handleRemove(type)}
-									/>
-								) : (
-									<Text
-										height={16}
-										color="chakra-subtle-text"
-									>{`Drop ${type} column here`}</Text>
-								)}
-							</Box>
-						</Stack>
+						<FormControl key={type} isInvalid={!!error}>
+							<Stack alignItems="stretch">
+								<FormLabel m={0}>{`${type
+									.split(" ")
+									.map(
+										(word) =>
+											(word[0] ?? "").toLocaleUpperCase() + word.slice(1),
+									)
+									.join(" ")} Column:`}</FormLabel>
+								<Box
+									as={motion.div}
+									aria-invalid={!!error}
+									p={4}
+									ref={ref}
+									textAlign="center"
+									layerStyle="drop-area"
+								>
+									{column ? (
+										<ColumnCard
+											column={column}
+											dragConstraints={dragAreaRef}
+											onDragEnd={handleDrop(column)}
+											onRemoveClick={() => handleRemove(type)}
+										/>
+									) : (
+										<Text
+											height={16}
+											color="chakra-subtle-text"
+										>{`Drop ${type} column here`}</Text>
+									)}
+								</Box>
+							</Stack>
+							{error && <FormErrorMessage>{error}</FormErrorMessage>}
+						</FormControl>
 					);
 				})}
 			</Stack>
-			<Stack alignItems="stretch" px={4}>
+			<Stack alignItems="stretch" px={4} spacing={4}>
 				<FormLabel m={0}>Columns:</FormLabel>
 				{preview.headers.map((column) =>
 					isInList(column) ? (

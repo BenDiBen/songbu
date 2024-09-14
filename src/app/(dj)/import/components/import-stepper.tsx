@@ -15,6 +15,7 @@ import {
 	StepStatus,
 	StepTitle,
 	Stepper,
+	useBoolean,
 } from "@chakra-ui/react";
 import { z } from "zod";
 import { SelectColumnsStep } from "./select-columns-step";
@@ -28,7 +29,7 @@ const steps: StepDefinition<CsvImportStepperState>[] = [
 		component: SelectFileStep,
 		isComplete: ({ file }) => !!file,
 		schema: z.object({
-			file: z.instanceof(File).refine((file) => file !== undefined, {
+			file: z.instanceof(File, {
 				message: "Please select a file",
 			}),
 		}),
@@ -38,29 +39,36 @@ const steps: StepDefinition<CsvImportStepperState>[] = [
 		description: "Map your song data",
 		component: SelectColumnsStep,
 		isComplete: ({ mapping }) => !!mapping,
+		schema: z.object({
+			mapping: z.object({
+				artist: z.string(),
+				title: z.string(),
+			}),
+		}),
 	},
 	{
 		title: "Upload",
 		description: "Create your song book!",
 		component: () => "Beep boop",
+		schema: z.object({
+			name: z.string(),
+		}),
 	},
 ];
 
 export const ImportStepper = () => {
 	const {
-		activeStep,
-		component: StepComponent,
-		description,
+		activeStep: { component: StepComponent, schema, title },
+		activeStepIndex,
+		errors,
 		goToNext,
 		goToPrevious,
 		goToStep,
 		hasNext,
 		hasPrevious,
-		isComplete,
 		onChange,
 		state,
 		setState,
-		title,
 	} = useSteps(steps, {});
 
 	return (
@@ -71,7 +79,7 @@ export const ImportStepper = () => {
 			flexGrow={1}
 			my={{ base: 8, sm: 10, md: 20, lg: 40 }}
 		>
-			<Stepper index={activeStep} width="full" maxWidth="4xl">
+			<Stepper index={activeStepIndex} width="full" maxWidth="4xl">
 				{steps.map((step, index) => (
 					<Step key={step.title}>
 						<StepIndicator onClick={() => goToStep(index)}>
@@ -93,13 +101,14 @@ export const ImportStepper = () => {
 					</Step>
 				))}
 			</Stepper>
-			<Box flexGrow={1}>
+			<Stack flexGrow={1}>
 				<StepComponent
+					errors={errors}
 					state={state}
 					onStateChange={setState}
 					onChange={onChange}
 				/>
-			</Box>
+			</Stack>
 			<HStack>
 				{hasPrevious && (
 					<Button width={32} variant="secondary" onClick={goToPrevious}>
