@@ -16,6 +16,18 @@ const backdrop = defineStyle({
     radial-gradient(closest-corner, ${colors.brand[900]} 0%, ${colors.gray[900]})`,
 });
 
+const dropArea = defineStyle({
+	background: "chakra-body-bg",
+	border: "2px dashed",
+	borderRadius: "lg",
+	borderColor: "chakra-border-color",
+	textAlign: "center",
+	_hover: {
+		borderColor: "chakra-subtle-text",
+		shadow: "0px 0px 50px -20px var(--chakra-colors-brand-300)",
+	},
+});
+
 //--chakra-colors-twitter-500
 
-export const layerStyles = { backdrop };
+export const layerStyles = { backdrop, "drop-area": dropArea };

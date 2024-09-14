@@ -3,8 +3,20 @@ import { mode } from "@chakra-ui/theme-tools";
 import { path } from "ramda";
 import tinycolor from "tinycolor2";
 
+const secondary = defineStyle({
+	borderWidth: "1px",
+	borderColor: "gray.700",
+	color: "chakra-body-text",
+	_hover: {
+		bg: "gray.800",
+	},
+	_expanded: {
+		bg: "gray.800",
+	},
+});
+
 const gradient = defineStyle((props) => {
-	const { theme, colorScheme, colorMode } = props;
+	const { theme, colorScheme } = props;
 
 	const getColor = (color: string, index: string, alpha = 1) =>
 		tinycolor(path([color, index], theme.colors))
@@ -45,34 +57,24 @@ const gradient = defineStyle((props) => {
 	};
 
 	const disabledStyle = {
+		...defaultStyle,
 		color: getColor("gray", "300", 0.8),
 		opacity: 0.7,
+		shadow: "unset",
 	};
 
 	return {
 		...defaultStyle,
 		_hover: {
 			...hoverStyle,
-			_disabled: {
-				...hoverStyle,
-				...disabledStyle,
-			},
+			_disabled: disabledStyle,
 		},
-		_disabled: {
-			...defaultStyle,
-			...disabledStyle,
-		},
+		_disabled: disabledStyle,
 	};
 });
 
 export const Button = defineStyleConfig({
-	// baseStyle: {
-	// 	background: getButtonGradient(),
-	// 	border: "2px solid",
-	// 	borderRadius: "10px",
-	// 	borderImage: `${getButtonGradient()} 1`,
-	// },
-	variants: { gradient },
+	variants: { gradient, secondary },
 	defaultProps: { variant: "gradient" },
 	baseStyle: { borderRadius: "full" },
 });

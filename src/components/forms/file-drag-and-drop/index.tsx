@@ -2,8 +2,6 @@
 
 import {
 	Box,
-	Card,
-	CardBody,
 	Center,
 	Icon,
 	Text,
@@ -80,43 +78,37 @@ export const FileDragAndDrop = forwardRef(
 						)}
 					</VStack>
 				</Center>
-				<Card
+				<Box
+					as="button"
 					h="unset"
-					border="2px dashed"
-					borderColor="chakra-subtle-text"
 					width="full"
 					height="xs"
-					textAlign="center"
 					onClick={handleClick}
-					_hover={{
-						bgColor,
-					}}
+					layerStyle="drop-area"
 				>
-					<CardBody>
-						<Box display="none">
-							<input
-								ref={(e) => {
-									if (ref && typeof ref === "function") {
-										ref(e);
-									}
+					<Box display="none">
+						<input
+							ref={(e) => {
+								if (ref && typeof ref === "function") {
+									ref(e);
+								}
 
-									inputRef.current = e;
-								}}
-								type="file"
-								{...state?.getInputProps()}
+								inputRef.current = e;
+							}}
+							type="file"
+							{...state?.getInputProps()}
+						/>
+					</Box>
+					<Center h="full">
+						{value && !Array.isArray(value) && (
+							<SinglePlaceholder
+								onRemove={onChange ? () => onChange([]) : undefined}
+								file={value}
 							/>
-						</Box>
-						<Center h="full">
-							{value && !Array.isArray(value) && (
-								<SinglePlaceholder
-									onRemove={onChange ? () => onChange([]) : undefined}
-									file={value}
-								/>
-							)}
-							{!value && <EmptyPlaceholder accept={accept} />}
-						</Center>
-					</CardBody>
-				</Card>
+						)}
+						{!value && <EmptyPlaceholder accept={accept} />}
+					</Center>
+				</Box>
 			</>
 		);
 	},
