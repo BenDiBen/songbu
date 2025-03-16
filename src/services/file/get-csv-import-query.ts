@@ -39,7 +39,10 @@ export const getCsvImport = async (
 
 export const useGetCsvImportQuery = (
 	file: File | undefined,
-	mapping: SongBookColumnMapping,
+	mapping: SongBookColumnMapping | undefined = {
+		artist: undefined,
+		title: undefined,
+	},
 ) =>
 	useQuery({
 		queryKey: ["file", "import", file?.name, mapping.artist, mapping.title],

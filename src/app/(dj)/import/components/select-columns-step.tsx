@@ -3,7 +3,6 @@
 import type { StepDefinitionProps } from "@/hooks/use-steps";
 import { useCsvPreview } from "@/services/file/get-csv-preview";
 import type { SongBookColumnMapping } from "@/types/song-book-column-mapping";
-import { toSongBookImport } from "@/types/song-book-import";
 import {
 	Box,
 	Card,
@@ -52,13 +51,6 @@ export const SelectColumnsStep = ({
 	state: { mapping, file },
 	onChange,
 }: StepDefinitionProps<CsvImportStepperState>) => {
-	const artistError = errors?.find(
-		(error) => error.path.join(".") === "mapping.artist",
-	)?.message;
-	const titleError = errors?.find(
-		(error) => error.path.join(".") === "mapping.title",
-	)?.message;
-
 	const { data: preview } = useCsvPreview(file);
 
 	const value = mapping ?? { artist: undefined, title: undefined };
@@ -116,7 +108,6 @@ export const SelectColumnsStep = ({
 		});
 
 	const isInList = (field: string) => !Object.values(value).includes(field);
-	const songBook = toSongBookImport(preview.rows, value);
 
 	return (
 		<Stack

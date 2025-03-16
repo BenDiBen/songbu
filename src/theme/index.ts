@@ -3,6 +3,7 @@ import { colors } from "./colors";
 import { components } from "./components";
 import { layerStyles } from "./layer-styles";
 import { sizes } from "./sizes";
+import { global } from "./styles/global";
 
 export const theme = extendTheme(
 	{
@@ -16,6 +17,9 @@ export const theme = extendTheme(
 		},
 		layerStyles,
 		sizes,
+		styles: {
+			global,
+		},
 	},
 	withDefaultColorScheme({ colorScheme: "brand" }),
 );

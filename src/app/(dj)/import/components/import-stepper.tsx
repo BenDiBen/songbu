@@ -15,12 +15,12 @@ import {
 	StepStatus,
 	StepTitle,
 	Stepper,
-	Text,
 } from "@chakra-ui/react";
 import { z } from "zod";
 import { SelectColumnsStep } from "./select-columns-step";
 import { SelectFileStep } from "./select-file-step";
 import type { CsvImportStepperState } from "./types";
+import { UploadStep } from "./upload-step";
 
 const steps: StepDefinition<CsvImportStepperState>[] = [
 	{
@@ -47,7 +47,7 @@ const steps: StepDefinition<CsvImportStepperState>[] = [
 	{
 		title: "Upload",
 		description: "Create your song book!",
-		component: () => "Beep boop",
+		component: UploadStep,
 		schema: z.object({
 			name: z.string(),
 		}),
@@ -116,7 +116,6 @@ export const ImportStepper = () => {
 					onChange={onChange}
 				/>
 			</Stack>
-			<Text>{JSON.stringify(state)}</Text>
 			<HStack>
 				{hasPrevious && (
 					<Button width={32} variant="secondary" onClick={goToPrevious}>
