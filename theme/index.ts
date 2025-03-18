@@ -4,6 +4,7 @@ import {
 	defineConfig,
 	mergeConfigs,
 } from "@chakra-ui/react";
+import { layerStyles } from "./layer-styles";
 
 const theme = defineConfig({
 	theme: {
@@ -13,6 +14,7 @@ const theme = defineConfig({
 			lg: "960px",
 			xl: "1200px",
 		},
+		layerStyles,
 		tokens: {
 			colors: {
 				primary: {
@@ -27,6 +29,8 @@ const theme = defineConfig({
 					800: { value: "#430441" },
 					900: { value: "#0c000c" },
 					950: { value: "#0c000c" },
+					core: { value: "#d453d035" },
+					halo: { value: "#d453d010" },
 				},
 				secondary: {
 					50: { value: "#f2f9fa" },
@@ -40,6 +44,8 @@ const theme = defineConfig({
 					800: { value: "#001e22" },
 					900: { value: "#001113" },
 					950: { value: "#001113" },
+					core: { value: "#0cb1c440" },
+					halo: { value: "#0cb1c410" },
 				},
 				neutral: {
 					50: { value: "#f4f2f5" },
@@ -57,77 +63,128 @@ const theme = defineConfig({
 			},
 		},
 		semanticTokens: {
-		  colors: {
-			primary: {
-				contrast: {
-				  value: { _light: "white", _dark: "white" },
+			colors: {
+				primary: {
+					contrast: {
+						value: { _light: "white", _dark: "white" },
+					},
+					fg: {
+						value: {
+							_light: "{colors.primary.700}",
+							_dark: "{colors.primary.300}",
+						},
+					},
+					subtle: {
+						value: {
+							_light: "{colors.primary.100}",
+							_dark: "{colors.primary.900}",
+						},
+					},
+					muted: {
+						value: {
+							_light: "{colors.primary.200}",
+							_dark: "{colors.primary.800}",
+						},
+					},
+					emphasized: {
+						value: {
+							_light: "{colors.primary.300}",
+							_dark: "{colors.primary.700}",
+						},
+					},
+					solid: {
+						value: {
+							_light: "{colors.primary.600}",
+							_dark: "{colors.primary.600}",
+						},
+					},
+					focusRing: {
+						value: {
+							_light: "{colors.primary.600}",
+							_dark: "{colors.primary.600}",
+						},
+					},
 				},
-				fg: {
-				  value: { _light: "{colors.primary.700}", _dark: "{colors.primary.300}" },
+				secondary: {
+					contrast: {
+						value: { _light: "white", _dark: "white" },
+					},
+					fg: {
+						value: {
+							_light: "{colors.secondary.700}",
+							_dark: "{colors.secondary.300}",
+						},
+					},
+					subtle: {
+						value: {
+							_light: "{colors.secondary.100}",
+							_dark: "{colors.secondary.900}",
+						},
+					},
+					muted: {
+						value: {
+							_light: "{colors.secondary.200}",
+							_dark: "{colors.secondary.800}",
+						},
+					},
+					emphasized: {
+						value: {
+							_light: "{colors.secondary.300}",
+							_dark: "{colors.secondary.700}",
+						},
+					},
+					solid: {
+						value: {
+							_light: "{colors.secondary.600}",
+							_dark: "{colors.secondary.600}",
+						},
+					},
+					focusRing: {
+						value: {
+							_light: "{colors.secondary.600}",
+							_dark: "{colors.secondary.600}",
+						},
+					},
 				},
-				subtle: {
-				  value: { _light: "{colors.primary.100}", _dark: "{colors.primary.900}" },
-				},
-				muted: {
-				  value: { _light: "{colors.primary.200}", _dark: "{colors.primary.800}" },
-				},
-				emphasized: {
-				  value: { _light: "{colors.primary.300}", _dark: "{colors.primary.700}" },
-				},
-				solid: {
-				  value: { _light: "{colors.primary.600}", _dark: "{colors.primary.600}" },
-				},
-				focusRing: {
-				  value: { _light: "{colors.primary.600}", _dark: "{colors.primary.600}" },
+				neutral: {
+					contrast: {
+						value: { _light: "{colors.white}", _dark: "{colors.black}" },
+					},
+					fg: {
+						value: {
+							_light: "{colors.neutral.800}",
+							_dark: "{colors.neutral.200}",
+						},
+					},
+					subtle: {
+						value: {
+							_light: "{colors.neutral.100}",
+							_dark: "{colors.neutral.900}",
+						},
+					},
+					muted: {
+						value: {
+							_light: "{colors.neutral.200}",
+							_dark: "{colors.neutral.800}",
+						},
+					},
+					emphasized: {
+						value: {
+							_light: "{colors.neutral.300}",
+							_dark: "{colors.neutral.700}",
+						},
+					},
+					solid: {
+						value: { _light: "{colors.neutral.900}", _dark: "{colors.white}" },
+					},
+					focusRing: {
+						value: {
+							_light: "{colors.neutral.800}",
+							_dark: "{colors.neutral.200}",
+						},
+					},
 				},
 			},
-			secondary: {
-				contrast: {
-				  value: { _light: "white", _dark: "white" },
-				},
-				fg: {
-				  value: { _light: "{colors.secondary.700}", _dark: "{colors.secondary.300}" },
-				},
-				subtle: {
-				  value: { _light: "{colors.secondary.100}", _dark: "{colors.secondary.900}" },
-				},
-				muted: {
-				  value: { _light: "{colors.secondary.200}", _dark: "{colors.secondary.800}" },
-				},
-				emphasized: {
-				  value: { _light: "{colors.secondary.300}", _dark: "{colors.secondary.700}" },
-				},
-				solid: {
-				  value: { _light: "{colors.secondary.600}", _dark: "{colors.secondary.600}" },
-				},
-				focusRing: {
-				  value: { _light: "{colors.secondary.600}", _dark: "{colors.secondary.600}" },
-				},
-			},
-			neutral: {
-			  contrast: {
-				value: { _light: "{colors.white}", _dark: "{colors.black}" },
-			  },
-			  fg: {
-				value: { _light: "{colors.neutral.800}", _dark: "{colors.neutral.200}" },
-			  },
-			  subtle: {
-				value: { _light: "{colors.neutral.100}", _dark: "{colors.neutral.900}" },
-			  },
-			  muted: {
-				value: { _light: "{colors.neutral.200}", _dark: "{colors.neutral.800}" },
-			  },
-			  emphasized: {
-				value: { _light: "{colors.neutral.300}", _dark: "{colors.neutral.700}" },
-			  },
-			  solid: {
-				value: { _light: "{colors.neutral.900}", _dark: "{colors.white}" },
-			  },
-			  focusRing: {
-				value: { _light: "{colors.neutral.800}", _dark: "{colors.neutral.200}" },
-			  },
-			},
-		  },
 		},
 	},
 	strictTokens: true,

@@ -1,4 +1,5 @@
 import { Provider } from "@/components/ui/provider";
+import { Box } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -24,7 +25,17 @@ const RootLayout = ({
 }>) => (
 	<html suppressHydrationWarning lang="en">
 		<body className={`${geistSans.variable} ${geistMono.variable}`}>
-			<Provider>{children}</Provider>
+			<Provider>
+				<Box
+					top={0}
+					left={0}
+					position="absolute"
+					layerStyle="backdrop"
+					minW="100vw"
+					minH="100vh"
+				/>
+				{children}
+			</Provider>
 		</body>
 	</html>
 );
