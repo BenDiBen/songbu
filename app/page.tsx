@@ -7,11 +7,13 @@ import {
 	Flex,
 	Heading,
 	Icon,
+	Spacer,
 	Stack,
 	Text,
 	VStack,
 } from "@chakra-ui/react";
 import { LuMic, LuUpload, LuVideo } from "react-icons/lu";
+import { Footer } from "./footer";
 import { Header } from "./header";
 
 const features = [
@@ -37,7 +39,7 @@ const features = [
 
 const HomePage = () => {
 	return (
-		<Flex flexDir="column" justifyContent="stretch">
+		<Flex flexDir="column" justifyContent="stretch" minH="100svh">
 			<Header />
 			<Container py={32}>
 				<Flex
@@ -75,7 +77,10 @@ const HomePage = () => {
 				</Flex>
 			</Container>
 			<Box
-				colorPalette="secondary"
+				colorPalette={{
+					_light: "gray",
+					_dark: "secondary",
+				}}
 				bg={{
 					_light: "colorPalette.100",
 					_dark: "colorPalette.halo",
@@ -93,7 +98,7 @@ const HomePage = () => {
 						</Heading>
 						<Flex w="100%" flexWrap="wrap" gap={8} justify="center">
 							{features.map(({ title, description, icon: DisplayIcon }) => (
-								<Card.Root key={title} width="320px" p={4}>
+								<Card.Root key={title} width="xs" p={4}>
 									<Card.Body gap={8} alignItems="center">
 										<Card.Title>
 											<Stack align="center">
@@ -121,6 +126,8 @@ const HomePage = () => {
 					</VStack>
 				</Container>
 			</Box>
+			<Spacer />
+			<Footer />
 		</Flex>
 	);
 };
