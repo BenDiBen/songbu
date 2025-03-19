@@ -1,10 +1,6 @@
 import { defineLayerStyles } from "@chakra-ui/react";
 
-export const layerStyles = defineLayerStyles({
-	backdrop: {
-		description: "backdrop",
-		value: {
-			background: `radial-gradient(
+const darkBackground = `radial-gradient(
           farthest-side at top left,
           {colors.primary.core} 0%,
           transparent 80%
@@ -15,7 +11,16 @@ export const layerStyles = defineLayerStyles({
           {colors.secondary.halo} 40%,
           transparent 60%
         ),
-        radial-gradient(closest-corner, {colors.primary.900} 0%, {colors.gray.900})`,
+        radial-gradient(closest-corner, {colors.primary.900} 0%, {colors.gray.900})`;
+
+export const layerStyles = defineLayerStyles({
+	backdrop: {
+		description: "backdrop",
+		value: {
+			background: {
+				_light: "{colors.primary.100}",
+				_dark: darkBackground,
+			},
 		},
 	},
 });
