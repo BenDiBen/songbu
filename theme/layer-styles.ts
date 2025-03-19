@@ -11,14 +11,14 @@ const darkBackground = `radial-gradient(
           {colors.secondary.halo} 40%,
           transparent 60%
         ),
-        radial-gradient(closest-corner, {colors.primary.900} 0%, {colors.gray.900})`;
+        radial-gradient(closest-corner, {colors.primary.950} 0%, {colors.gray.950})`;
 
 export const layerStyles = defineLayerStyles({
 	backdrop: {
 		description: "backdrop",
 		value: {
 			background: {
-				_light: "{colors.primary.100}",
+				_light: "{colors.primary.50}",
 				_dark: darkBackground,
 			},
 		},

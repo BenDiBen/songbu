@@ -1,3 +1,5 @@
+import { shadows } from "./shadows";
+
 export const semanticTokens = {
 	colors: {
 		primary: {
@@ -121,4 +123,5 @@ export const semanticTokens = {
 			},
 		},
 	},
+	shadows,
 };

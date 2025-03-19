@@ -33,6 +33,7 @@ const RootLayout = ({
 					layerStyle="backdrop"
 					minW="100vw"
 					minH="100vh"
+					zIndex={-1}
 				/>
 				{children}
 			</Provider>
