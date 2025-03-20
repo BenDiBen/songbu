@@ -5,7 +5,7 @@ import NextLink from "next/link";
 
 export const Header = () => {
 	return (
-		<Container>
+		<Container colorPalette="gray">
 			<Flex as="nav" align="center" gap={4}>
 				<Link asChild>
 					<NextLink href="/">

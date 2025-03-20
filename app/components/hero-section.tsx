@@ -7,12 +7,13 @@ import {
 	Text,
 	VStack,
 } from "@chakra-ui/react";
+import Image from "next/image";
 
 export const HeroSection = () => {
 	return (
-		<Container py={32}>
+		<Container>
 			<Flex
-				direction={{ base: "column", md: "row" }}
+				direction={{ base: "column", lg: "row" }}
 				align="center"
 				justify="space-between"
 				gap={10}
@@ -43,6 +44,7 @@ export const HeroSection = () => {
 						</Button>
 					</Stack>
 				</VStack>
+				<Image src="/hero.png" alt="Hero Image" width={800} height={800} />
 			</Flex>
 		</Container>
 	);

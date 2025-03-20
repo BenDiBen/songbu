@@ -6,6 +6,12 @@ export const semanticTokens = {
 			contrast: {
 				value: { _light: "white", _dark: "white" },
 			},
+			bg: {
+				value: {
+					_light: "{colors.secondary.50}",
+					_dark: "{colors.secondary.950}",
+				},
+			},
 			fg: {
 				value: {
 					_light: "{colors.primary.700}",
@@ -46,6 +52,12 @@ export const semanticTokens = {
 		secondary: {
 			contrast: {
 				value: { _light: "white", _dark: "white" },
+			},
+			bg: {
+				value: {
+					_light: "{colors.secondary.50}",
+					_dark: "{colors.secondary.950}",
+				},
 			},
 			fg: {
 				value: {

@@ -16,7 +16,7 @@ const features = [
 		icon: LuUpload,
 		title: "Simple Uploads",
 		description:
-			"Upload any MP3 file and let our AI do the heavy lifting to create your karaoke track.",
+			"Upload any MP3 file or load a backtrack directly from YouTube.",
 	},
 	{
 		icon: LuVideo,
@@ -34,17 +34,7 @@ const features = [
 
 export const FeaturesSection = () => {
 	return (
-		<Box
-			colorPalette={{
-				_light: "gray",
-				_dark: "secondary",
-			}}
-			bg={{
-				_light: "colorPalette.100",
-				_dark: "colorPalette.halo",
-			}}
-			py={20}
-		>
+		<Box colorPalette="secondary" py={20}>
 			<Container>
 				<VStack gap={12}>
 					<Heading
@@ -54,9 +44,16 @@ export const FeaturesSection = () => {
 					>
 						Powerful Karaoke Creation
 					</Heading>
-					<Flex w="100%" flexWrap="wrap" gap={8} justify="center">
+					<Flex flexWrap="wrap" gap={8} justify="center">
 						{features.map(({ title, description, icon: DisplayIcon }) => (
-							<Card.Root key={title} width="xs" p={4}>
+							<Card.Root
+								key={title}
+								variant="outline"
+								width="xs"
+								p={4}
+								borderRadius="3xl"
+								textAlign="center"
+							>
 								<Card.Body gap={8} alignItems="center">
 									<Card.Title>
 										<Stack align="center">
@@ -68,6 +65,7 @@ export const FeaturesSection = () => {
 												aspectRatio={1}
 												p={2}
 												borderRadius="full"
+												shadow="0 0 20px {colors.secondary.600}"
 											>
 												<Icon size="lg">
 													<DisplayIcon />
