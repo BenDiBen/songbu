@@ -1,6 +1,6 @@
-import { Provider } from "@/components/ui/provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AppProviders } from "./providers";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -24,7 +24,7 @@ const RootLayout = ({
 }>) => (
 	<html suppressHydrationWarning lang="en">
 		<body className={`${geistSans.variable} ${geistMono.variable}`}>
-			<Provider>{children}</Provider>
+			<AppProviders>{children}</AppProviders>
 		</body>
 	</html>
 );

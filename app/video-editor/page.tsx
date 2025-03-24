@@ -1,12 +1,18 @@
-import { Stack } from "@chakra-ui/react";
-import { Mp3FileUpload } from "./components/mp3-file-upload";
+import { Stack, Steps } from "@chakra-ui/react";
 import { EditingSteps } from "./components/editing-steps";
+import { Mp3FileUpload } from "./components/mp3-file-upload";
+import { UploadLyrics } from "./components/upload-lyrics";
 
 const VideoEditorPage = () => {
 	return (
-		<Stack align="center">
+		<Stack align="center" gap={12}>
 			<EditingSteps />
-			<Mp3FileUpload />
+			<Steps.Content index={0}>
+				<Mp3FileUpload />
+			</Steps.Content>
+			<Steps.Content index={1}>
+				<UploadLyrics />
+			</Steps.Content>
 		</Stack>
 	);
 };
