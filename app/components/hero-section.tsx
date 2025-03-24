@@ -8,6 +8,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import NextLink from "next/link";
 
 export const HeroSection = () => {
 	return (
@@ -36,8 +37,8 @@ export const HeroSection = () => {
 						gap={4}
 						w={{ base: "100%", sm: "auto" }}
 					>
-						<Button size="lg" variant="solid">
-							Get Started Free
+						<Button asChild size="lg" variant="solid">
+							<NextLink href="/video-editor">Get Started Free</NextLink>
 						</Button>
 						<Button size="lg" variant="outline">
 							See How It Works
