@@ -1,7 +1,7 @@
 "use client";
 
 import { Steps, type UseStepsReturn, useSteps } from "@chakra-ui/react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { STEPS } from "./steps";
 import type { Keyframe, VideoContextReturn, VideoContextValue } from "./types";
 
@@ -12,8 +12,10 @@ const NotInitiailized = () => {
 };
 
 const VideoContext = createContext<VideoContextReturn>({
+	isLoading: false,
 	keyframes: [],
 	setBacktrack: NotInitiailized,
+	setIsLoading: NotInitiailized,
 	setLyrics: NotInitiailized,
 	setKeyframes: NotInitiailized,
 });
@@ -23,32 +25,48 @@ export const VideoEditorProviders = ({
 }: { children: React.ReactNode }) => {
 	const steps = useSteps({ defaultStep: 0, count: STEPS.length });
 	const [videoContext, setVideoContext] = useState<VideoContextValue>({
+		isLoading: false,
 		keyframes: [],
 	});
+
+	const setBacktrack = useCallback(
+		(backtrack: string) => setVideoContext((prev) => ({ ...prev, backtrack })),
+		[],
+	);
+
+	const setIsLoading = useCallback(
+		(isLoading: boolean) => setVideoContext((prev) => ({ ...prev, isLoading })),
+		[],
+	);
+
+	const setLyrics = useCallback(
+		(lyrics: string) => setVideoContext((prev) => ({ ...prev, lyrics })),
+		[],
+	);
+
+	const setKeyframes = useCallback(
+		(keyframes: Keyframe[]) =>
+			setVideoContext((prev) => ({ ...prev, keyframes })),
+		[],
+	);
 
 	return (
 		<StepsContext.Provider value={steps}>
 			<Steps.RootProvider value={steps}>
 				<VideoContext.Provider
-					value={{ ...videoContext, setBacktrack, setLyrics, setKeyframes }}
+					value={{
+						...videoContext,
+						setBacktrack,
+						setLyrics,
+						setKeyframes,
+						setIsLoading,
+					}}
 				>
 					{children}
 				</VideoContext.Provider>
 			</Steps.RootProvider>
 		</StepsContext.Provider>
 	);
-
-	function setBacktrack(backtrack: string) {
-		setVideoContext((prev) => ({ ...prev, backtrack }));
-	}
-
-	function setLyrics(lyrics: string) {
-		setVideoContext((prev) => ({ ...prev, lyrics }));
-	}
-
-	function setKeyframes(keyframes: Keyframe[]) {
-		setVideoContext((prev) => ({ ...prev, keyframes }));
-	}
 };
 
 export const useVideoContext = () => useContext(VideoContext);

@@ -1,8 +1,8 @@
-import { useGetLyricsQuery } from "@/services/get-lyrics-query";
 import { useGetSongsQuery } from "@/services/get-songs-query";
 import { Card, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
+import { scrapeLyrics } from "../actions/scrape-lyrics";
 import { useVideoContext } from "../providers";
 
 export const LyricsSearchResults = ({ search }: { search: string }) => {
@@ -11,21 +11,41 @@ export const LyricsSearchResults = ({ search }: { search: string }) => {
 	const [selectedHitId, setSelectedHitId] = useState<number | undefined>(
 		undefined,
 	);
-	const { setLyrics } = useVideoContext();
-	const { data: lyrics } = useGetLyricsQuery(
-		songs?.response.hits.find((hit) => hit.result.id === selectedHitId)?.result
-			.url,
-	);
+	const { setLyrics, setIsLoading } = useVideoContext();
 
 	useEffect(() => {
-		if (lyrics) {
-			setLyrics(
-				lyrics
-					.map(({ content, hasBreak }) => content + (hasBreak ? "\n" : " "))
-					.join(""),
-			);
+		async function loadLyrics() {
+			const url = songs?.response.hits.find(
+				(hit) => hit.result.id === selectedHitId,
+			)?.result.url;
+
+			if (!url) {
+				return;
+			}
+
+			setIsLoading(true);
+
+			try {
+				const lyrics = await scrapeLyrics(url);
+
+				if (!lyrics) {
+					return;
+				}
+
+				setLyrics(
+					lyrics
+						.map(
+							({ content, hasBreak }) => content + (hasBreak ? "\n\n" : "\n\n"),
+						)
+						.join(""),
+				);
+			} finally {
+				setIsLoading(false);
+			}
 		}
-	}, [lyrics, setLyrics]);
+
+		loadLyrics();
+	}, [setLyrics, setIsLoading, selectedHitId, songs]);
 
 	if (!songs) {
 		return null;
@@ -43,7 +63,6 @@ export const LyricsSearchResults = ({ search }: { search: string }) => {
 					cursor="pointer"
 					onClick={() => {
 						setSelectedHitId(hit.result.id);
-						setLyrics(hit.result.full_title);
 					}}
 				>
 					<Card.Body>
