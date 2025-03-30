@@ -11,8 +11,6 @@ export const colors = {
 		800: { value: "#430441" },
 		900: { value: "#430441" },
 		950: { value: "#0c000c" },
-		core: { value: "#d453d035" },
-		halo: { value: "#d453d010" },
 	},
 	secondary: {
 		50: { value: "#f2f9fa" },
@@ -26,8 +24,6 @@ export const colors = {
 		800: { value: "#001e22" },
 		900: { value: "#001e22" },
 		950: { value: "#001113" },
-		core: { value: "#0cb1c440" },
-		halo: { value: "#0cb1c410" },
 	},
 	neutral: {
 		50: { value: "#f4f2f5" },
