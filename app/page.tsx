@@ -1,11 +1,12 @@
 import { Box, Flex, Spacer } from "@chakra-ui/react";
 import { FeaturesSection } from "./components/features-section";
 import { HeroSection } from "./components/hero-section";
+import { StepsSection } from "./components/steps-section";
 import { Footer } from "./footer";
 import { Header } from "./header";
 
 const background = {
-	_light: "{colors.primary.50}",
+	_light: "{colors.secondary.100}",
 	_dark: `radial-gradient(
 		  farthest-side at top left,
 		  #d453d0bf 0%,
@@ -22,12 +23,18 @@ const background = {
 
 const HomePage = () => {
 	return (
-		<Flex flexDir="column" justifyContent="stretch" minH="100svh">
+		<Flex
+			flexDir="column"
+			justifyContent="stretch"
+			minH="100svh"
+			position="relative"
+		>
 			<Box bg={background}>
 				<Header />
 				<HeroSection />
 			</Box>
 			<FeaturesSection />
+			<StepsSection />
 			<Spacer />
 			<Footer />
 		</Flex>

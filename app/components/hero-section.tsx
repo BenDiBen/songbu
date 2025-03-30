@@ -7,8 +7,8 @@ import {
 	Text,
 	VStack,
 } from "@chakra-ui/react";
-import Image from "next/image";
 import NextLink from "next/link";
+import { HeroImage } from "./hero-image";
 
 export const HeroSection = () => {
 	return (
@@ -26,11 +26,11 @@ export const HeroSection = () => {
 						fontWeight="bold"
 						textShadow="text-glow.primary"
 					>
-						Turn Any Song Into Karaoke Magic
+						Karaoke with Personality
 					</Heading>
 					<Text fontSize="xl">
-						Songbu helps karaoke DJs create professional karaoke videos from any
-						MP3 in seconds. No technical skills required.
+						Songbu helps you create professional karaoke videos from your
+						backtrack with ease. No technical skills required.
 					</Text>
 					<Stack
 						direction={{ base: "column", sm: "row" }}
@@ -45,7 +45,7 @@ export const HeroSection = () => {
 						</Button>
 					</Stack>
 				</VStack>
-				<Image src="/hero.png" alt="Hero Image" width={800} height={800} />
+				<HeroImage />
 			</Flex>
 		</Container>
 	);

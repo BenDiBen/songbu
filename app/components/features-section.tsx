@@ -7,28 +7,35 @@ import {
 	Heading,
 	Icon,
 	Stack,
+	Text,
 	VStack,
 } from "@chakra-ui/react";
-import { LuMic, LuUpload, LuVideo } from "react-icons/lu";
+import { LuClock, LuDownload, LuPalette, LuVideo } from "react-icons/lu";
 
 const features = [
 	{
-		icon: LuUpload,
-		title: "Simple Uploads",
+		icon: LuClock,
+		title: "Lyric Matching",
 		description:
-			"Upload any MP3 file or load a backtrack directly from YouTube.",
+			"Add lyrics and use our intuitive editor to match them perfectly to your music.",
+	},
+	{
+		icon: LuPalette,
+		title: "Custom Branding",
+		description:
+			"Add your own logo, colors, and style to make videos that are uniquely yours.",
 	},
 	{
 		icon: LuVideo,
-		title: "Video Generation",
+		title: "Visualizations",
 		description:
-			"Create professional karaoke videos with synchronized lyrics and customizable backgrounds.",
+			"Choose from a variety of audio visualizations to enhance your videos.",
 	},
 	{
-		icon: LuMic,
-		title: "DJ Ready",
+		icon: LuDownload,
+		title: "Easy Export",
 		description:
-			"Export in formats perfect for your karaoke setup, ready to use at your next gig.",
+			"Export your finished karaoke to MP4 or MP3+G videos in high quality, ready to share or perform.",
 	},
 ];
 
@@ -37,13 +44,19 @@ export const FeaturesSection = () => {
 		<Box colorPalette="secondary" py={20}>
 			<Container>
 				<VStack gap={12}>
-					<Heading
-						textAlign="center"
-						fontSize="4xl"
-						textShadow="text-glow.secondary"
-					>
-						Powerful Karaoke Creation
-					</Heading>
+					<VStack gap={4}>
+						<Heading
+							textAlign="center"
+							fontSize="4xl"
+							textShadow="text-glow.secondary"
+						>
+							Everything You Need
+						</Heading>
+						<Text color="fg.muted" textAlign="center" fontSize="lg">
+							Songbu provides all the tools you need to create professional
+							karaoke videos with perfect timing and custom branding.
+						</Text>
+					</VStack>
 					<Flex flexWrap="wrap" gap={8} justify="center">
 						{features.map(({ title, description, icon: DisplayIcon }) => (
 							<Card.Root
@@ -65,7 +78,10 @@ export const FeaturesSection = () => {
 												aspectRatio={1}
 												p={2}
 												borderRadius="full"
-												shadow="0 0 20px {colors.secondary.600}"
+												shadow={{
+													_light: undefined,
+													_dark: "0 0 20px {colors.secondary.600}",
+												}}
 											>
 												<Icon size="lg">
 													<DisplayIcon />
