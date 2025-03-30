@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 
 export const HeroImage = () => {
+	//TODO: Fix image warnings
 	return (
 		<>
 			<Box display={{ _light: "block", _dark: "none" }}>

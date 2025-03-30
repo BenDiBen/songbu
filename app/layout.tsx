@@ -1,16 +1,6 @@
+import "@fontsource-variable/tilt-neon/full.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { AppProviders } from "./providers";
-
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
 	title: "Songbu",
@@ -23,7 +13,7 @@ const RootLayout = ({
 	children: React.ReactNode;
 }>) => (
 	<html suppressHydrationWarning lang="en">
-		<body className={`${geistSans.variable} ${geistMono.variable}`}>
+		<body>
 			<AppProviders>{children}</AppProviders>
 		</body>
 	</html>

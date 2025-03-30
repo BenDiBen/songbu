@@ -8,6 +8,8 @@ import { useScroll } from "./hooks/use-scroll";
 
 export const Header = () => {
 	const scrolled = useScroll() > 1;
+
+	//TODO: Fix yanky negative margin to place header
 	return (
 		<Box
 			top={0}
@@ -16,6 +18,8 @@ export const Header = () => {
 			zIndex="sticky"
 			layerStyle="frostedGlass"
 			data-scrolled={scrolled}
+			mt={-32}
+			height={32}
 		>
 			<Container>
 				<Flex as="nav" align="center" gap={4}>

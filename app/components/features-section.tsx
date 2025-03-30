@@ -10,11 +10,16 @@ import {
 	Text,
 	VStack,
 } from "@chakra-ui/react";
-import { LuClock, LuDownload, LuPalette, LuVideo } from "react-icons/lu";
+import {
+	LuArrowLeftRight,
+	LuDownload,
+	LuPalette,
+	LuVideo,
+} from "react-icons/lu";
 
 const features = [
 	{
-		icon: LuClock,
+		icon: LuArrowLeftRight,
 		title: "Lyric Matching",
 		description:
 			"Add lyrics and use our intuitive editor to match them perfectly to your music.",

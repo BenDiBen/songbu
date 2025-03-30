@@ -1,4 +1,5 @@
 import { Box, Flex, Spacer } from "@chakra-ui/react";
+import { ComingSoonSection } from "./components/coming-soon-section";
 import { FeaturesSection } from "./components/features-section";
 import { HeroSection } from "./components/hero-section";
 import { StepsSection } from "./components/steps-section";
@@ -29,12 +30,13 @@ const HomePage = () => {
 			minH="100svh"
 			position="relative"
 		>
-			<Box bg={background}>
-				<Header />
+			<Header />
+			<Box bg={background} pt={32}>
 				<HeroSection />
 			</Box>
 			<FeaturesSection />
 			<StepsSection />
+			<ComingSoonSection />
 			<Spacer />
 			<Footer />
 		</Flex>

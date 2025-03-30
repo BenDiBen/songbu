@@ -14,8 +14,11 @@ const theme = defineConfig({
     keyframes,
     layerStyles,
     tokens: {
-      colors,
       animations,
+      colors,
+      fonts: {
+        tilt: { value: "Tilt Neon Variable" },
+      },
     },
     semanticTokens,
   },
