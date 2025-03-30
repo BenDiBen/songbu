@@ -9,7 +9,7 @@ export const ComingSoonSection = () => {
 					<VStack gap={8}>
 						<Heading
 							textAlign="center"
-							fontSize="6xl"
+							fontSize="4xl"
 							textShadow="text-glow.secondary"
 						>
 							Coming Soon!

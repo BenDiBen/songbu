@@ -18,7 +18,13 @@ export const MicrophoneImage = () => {
 					aspectRatio="1"
 					position="relative"
 				>
-					<Image src={src} alt="Hero Image" fill objectFit="contain" />
+					<Image
+						src={src}
+						alt="Hero Image"
+						fill
+						object-fit="contain"
+						sizes="(max-width: 800px) 800px, 400px"
+					/>
 				</Box>
 			))}
 		</>

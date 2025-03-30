@@ -1,6 +1,6 @@
 "use client";
 
-import { HStack, Text, VStack } from "@chakra-ui/react";
+import { Flex, Text, VStack } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
@@ -46,11 +46,11 @@ export const CountDown = () => {
 	}
 
 	return (
-		<HStack>
+		<Flex flexWrap="wrap" justifyContent="center">
 			{Object.entries(countdown).map(([key, val]) => (
-				<VStack key={key} w="3xs" fontFamily="tilt" gap={0}>
+				<VStack key={key} w={{ base: 32, md: "3xs" }} fontFamily="tilt" gap={0}>
 					<Text
-						fontSize="120px"
+						fontSize={{ base: "80px", md: "120px" }}
 						textShadow={{ _light: "unset", _dark: textShadow }}
 						color={{ _light: "primary.500", _dark: "white" }}
 					>
@@ -61,6 +61,6 @@ export const CountDown = () => {
 					</Text>
 				</VStack>
 			))}
-		</HStack>
+		</Flex>
 	);
 };
