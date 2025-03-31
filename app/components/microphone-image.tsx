@@ -1,17 +1,27 @@
+import MicrophoneDark from "@/public/images/microphone-dark.png";
+import MicrophoneLight from "@/public/images/microphone-light.png";
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 
 const images = [
-	{ src: "/static/images/microphone-light.png", display: { _light: "block", _dark: "none" } },
-	{ src: "/static/images/microphone-dark.png", display: { _light: "none", _dark: "block" } },
+	{
+		key: "light",
+		src: MicrophoneLight,
+		display: { _light: "block", _dark: "none" },
+	},
+	{
+		key: "dark",
+		src: MicrophoneDark,
+		display: { _light: "none", _dark: "block" },
+	},
 ];
 
 export const MicrophoneImage = () => {
 	return (
 		<>
-			{images.map(({ src, display }) => (
+			{images.map(({ key, src, display }) => (
 				<Box
-					key={src}
+					key={key}
 					height={{ base: "unset", sm: "md" }}
 					width={{ base: "full", sm: "unset" }}
 					display={display}
