@@ -3,18 +3,19 @@ import type { Metadata } from "next";
 import { AppProviders } from "./providers";
 
 const description = `Enhance your karaoke experience with Songbu - the ultimate tool for KJ professionals and enthusiasts.
-	Create custom karaoke videos with perfect timing and stunning visuals.
-	No coding skills required. Get started now!`;
+Create custom karaoke videos with perfect timing and stunning visuals.
+No coding skills required. Get started now!`;
+
 const title = "Songbu - The Karaoke Jockey's Best Friend";
 
 export const metadata: Metadata = {
 	title,
 	description,
-	metadataBase: new URL("https://songbu.app"),
+	metadataBase: new URL("https://www.songbu.app"),
 	openGraph: {
 		title,
 		description,
-		url: "https://songbu.app",
+		url: "https://www.songbu.app",
 		siteName: "Songbu",
 		images: [
 			{
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
 		},
 	},
 	alternates: {
-		canonical: "https://songbu.app",
+		canonical: "https://www.songbu.app",
 	},
 	robots: {
 		index: true,
