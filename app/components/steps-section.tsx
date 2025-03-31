@@ -30,7 +30,7 @@ const features = [
 
 export const StepsSection = () => {
 	return (
-		<Box pt={20} layerStyle="backdrop">
+		<Box pt={20} layerStyle="backdrop" id="steps">
 			<Container>
 				<VStack gap={12} align="stretch">
 					<VStack gap={4}>

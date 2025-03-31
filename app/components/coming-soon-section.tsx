@@ -3,10 +3,10 @@ import { CountDown } from "./count-down";
 
 export const ComingSoonSection = () => {
 	return (
-		<Box colorPalette="secondary" py={20}>
+		<Box colorPalette="secondary" py={20} id="coming-soon">
 			<Container>
 				<VStack gap={12}>
-					<VStack gap={8}>
+					<VStack gap={4}>
 						<Heading
 							textAlign="center"
 							fontSize="4xl"

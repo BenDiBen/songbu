@@ -46,7 +46,7 @@ const features = [
 
 export const FeaturesSection = () => {
 	return (
-		<Box colorPalette="secondary" py={20}>
+		<Box colorPalette="secondary" py={20} id="features">
 			<Container>
 				<VStack gap={12}>
 					<VStack gap={4}>

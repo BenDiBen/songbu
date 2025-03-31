@@ -19,7 +19,7 @@ export const HeroSection = () => {
 				justify="space-between"
 				gap={10}
 			>
-				<VStack align="flex-start" gap={6} maxW="600px">
+				<VStack align="flex-start" gap={4} maxW="600px">
 					<Heading
 						as="h1"
 						size="3xl"
@@ -37,11 +37,8 @@ export const HeroSection = () => {
 						gap={4}
 						w={{ base: "100%", sm: "auto" }}
 					>
-						<Button asChild size="lg" variant="solid">
-							<NextLink href="/video-editor">Get Started Free</NextLink>
-						</Button>
-						<Button size="lg" variant="outline">
-							See How It Works
+						<Button asChild size="lg" variant="solid" mt={6}>
+							<NextLink href="/#coming-soon">Coming Soon!</NextLink>
 						</Button>
 					</Stack>
 				</VStack>
