@@ -23,7 +23,7 @@ export const Header = () => {
 		>
 			<Container>
 				<Flex as="nav" align="center" gap={4}>
-					<Link asChild>
+					<Link asChild aria-label="Home">
 						<NextLink href="/">
 							<Logo
 								p={4}
