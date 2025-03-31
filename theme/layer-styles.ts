@@ -1,8 +1,8 @@
 import { defineLayerStyles } from "@chakra-ui/react";
 
 const background = {
-	_light: "{colors.secondary.100}",
-	_dark: `radial-gradient(
+  _light: "linear-gradient({colors.secondary.100}, {colors.primary.50})",
+  _dark: `radial-gradient(
           farthest-side at top left,
           #d453d035 0%,
           #d453d010 80%
@@ -17,16 +17,16 @@ const background = {
 };
 
 export const layerStyles = defineLayerStyles({
-	backdrop: {
-		description: "backdrop",
-		value: {
-			background,
-		},
-	},
-	frostedGlass: {
-		description: "frostedGlass",
-		value: {
-			backdropFilter: "blur(10px)",
-		},
-	},
+  backdrop: {
+    description: "backdrop",
+    value: {
+      background,
+    },
+  },
+  frostedGlass: {
+    description: "frostedGlass",
+    value: {
+      backdropFilter: "blur(10px)",
+    },
+  },
 });

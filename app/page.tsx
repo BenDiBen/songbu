@@ -7,7 +7,7 @@ import { Footer } from "./footer";
 import { Header } from "./header";
 
 const background = {
-	_light: "{colors.secondary.100}",
+	_light: "linear-gradient({colors.secondary.200}, {colors.secondary.100})",
 	_dark: `radial-gradient(
 		  farthest-side at top left,
 		  #d453d0bf 0%,
