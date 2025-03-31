@@ -7,14 +7,14 @@ export const HeroImage = () => {
 		<>
 			<Box display={{ _light: "block", _dark: "none" }}>
 				<Image
-					src="/hero-light.png"
+					src="/static/images/hero-light.png"
 					alt="Hero Image"
 					width={800}
 					height={800}
 				/>
 			</Box>
 			<Box display={{ _light: "none", _dark: "block" }}>
-				<Image src="/hero-dark.png" alt="Hero Image" width={800} height={800} />
+				<Image src="/static/images/hero-dark.png" alt="Hero Image" width={800} height={800} />
 			</Box>
 		</>
 	);

@@ -2,8 +2,8 @@ import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 
 const images = [
-	{ src: "/microphone-light.png", display: { _light: "block", _dark: "none" } },
-	{ src: "/microphone-dark.png", display: { _light: "none", _dark: "block" } },
+	{ src: "/static/images/microphone-light.png", display: { _light: "block", _dark: "none" } },
+	{ src: "/static/images/microphone-dark.png", display: { _light: "none", _dark: "block" } },
 ];
 
 export const MicrophoneImage = () => {

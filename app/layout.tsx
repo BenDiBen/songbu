@@ -18,13 +18,13 @@ export const metadata: Metadata = {
 		siteName: "Songbu",
 		images: [
 			{
-				url: "/open-graph-image.jpg", // Relative to app directory or metadataBase
+				url: "/static/images/open-graph-image.jpg", // Relative to app directory or metadataBase
 				width: 1200,
 				height: 630,
 				alt: "Songbu - Karaoke Management Made Easy",
 			},
 			{
-				url: "/open-graph-square-image.jpg",
+				url: "/static/images/open-graph-square-image.jpg",
 				width: 800,
 				height: 800,
 				alt: "Songbu Logo",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 		title,
 		description,
 		images: {
-			url: "/open-graph-image.jpg", // Relative to app directory or metadataBase
+			url: "/static/images/open-graph-image.jpg", // Relative to app directory or metadataBase
 			alt: title,
 		},
 	},
