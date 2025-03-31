@@ -2,8 +2,9 @@ import "@fontsource-variable/tilt-neon/full.css";
 import type { Metadata } from "next";
 import { AppProviders } from "./providers";
 
-const description =
-	"Enhance your karaoke experience with Songbu - the ultimate tool for KJ professionals and enthusiasts";
+const description = `Enhance your karaoke experience with Songbu - the ultimate tool for KJ professionals and enthusiasts.
+	Create custom karaoke videos with perfect timing and stunning visuals.
+	No coding skills required. Get started now!`;
 const title = "Songbu - The Karaoke Jockey's Best Friend";
 
 export const metadata: Metadata = {
