@@ -1,25 +1,22 @@
-"use client";
-
 import { ColorModeButton } from "@/components/ui/color-mode";
 import { Logo } from "@/components/ui/logo";
 import { Box, Container, Flex, Link, Spacer } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { useScroll } from "./hooks/use-scroll";
 
-export const Header = () => {
-	const scrolled = useScroll() > 1;
+export const Header = ({ isSticky }: { isSticky?: boolean }) => {
+	const positionProps = isSticky
+		? {
+				colorPalette: "gray",
+				layerStyle: "frostedGlass",
+				mt: -32,
+				position: "sticky",
+				top: 0,
+				zIndex: "sticky",
+			}
+		: {};
 
-	//TODO: Fix yanky negative margin to place header
 	return (
-		<Box
-			top={0}
-			colorPalette="gray"
-			position="sticky"
-			zIndex="sticky"
-			layerStyle="frostedGlass"
-			data-scrolled={scrolled}
-			mt={-32}
-		>
+		<Box {...positionProps}>
 			<Container>
 				<Flex as="nav" align="center" gap={4}>
 					<Link asChild aria-label="Home">

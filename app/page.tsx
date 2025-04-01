@@ -30,7 +30,7 @@ const HomePage = () => {
 			minH="100svh"
 			position="relative"
 		>
-			<Header />
+			<Header isSticky />
 			<Box bg={background} pt={32}>
 				<HeroSection />
 			</Box>
