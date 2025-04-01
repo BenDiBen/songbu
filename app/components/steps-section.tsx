@@ -37,7 +37,8 @@ export const StepsSection = () => {
 						<Heading
 							as="h2"
 							textAlign="center"
-							fontSize="4xl"
+							fontWeight="bold"
+							size="3xl"
 							textShadow="text-glow.secondary"
 						>
 							Simple 3-Step Process
@@ -67,9 +68,9 @@ export const StepsSection = () => {
 											{index + 1}
 										</Badge>
 										<Heading
-											as="h2"
+											as="h3"
 											textAlign="center"
-											fontSize="2xl"
+											size="2xl"
 											textShadow="text-glow.secondary"
 										>
 											{title}

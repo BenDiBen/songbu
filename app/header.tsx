@@ -19,7 +19,6 @@ export const Header = () => {
 			layerStyle="frostedGlass"
 			data-scrolled={scrolled}
 			mt={-32}
-			height={32}
 		>
 			<Container>
 				<Flex as="nav" align="center" gap={4}>

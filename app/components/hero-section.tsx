@@ -17,9 +17,9 @@ export const HeroSection = () => {
 				direction={{ base: "column", lg: "row" }}
 				align="center"
 				justify="space-between"
-				gap={10}
+				gap={16}
 			>
-				<VStack align="flex-start" gap={4} maxW="600px">
+				<VStack align="flex-start" gap={4} maxW="600px" pt={16}>
 					<Heading
 						as="h1"
 						size="3xl"
@@ -29,8 +29,8 @@ export const HeroSection = () => {
 						Karaoke with Personality
 					</Heading>
 					<Text fontSize="xl">
-						Songbu helps you create professional karaoke videos from your
-						backtrack with ease. No technical skills required.
+						Songbu helps you to easily create professional karaoke videos from
+						your backtracks. No technical skills required.
 					</Text>
 					<Stack
 						direction={{ base: "column", sm: "row" }}

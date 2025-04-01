@@ -28,7 +28,7 @@ const features = [
 		icon: LuPalette,
 		title: "Custom Branding",
 		description:
-			"Add your own logo, colors, and style to make videos that are uniquely yours.",
+			"Add your own brands with custom logos and colors to make videos that are uniquely yours.",
 	},
 	{
 		icon: LuVideo,
@@ -40,7 +40,7 @@ const features = [
 		icon: LuDownload,
 		title: "Easy Export",
 		description:
-			"Export your finished karaoke to MP4 or MP3+G videos in high quality, ready to share or perform.",
+			"Export to high quality MP4 or MP3+G video, ready to share or perform.",
 	},
 ];
 
@@ -51,9 +51,11 @@ export const FeaturesSection = () => {
 				<VStack gap={12}>
 					<VStack gap={4}>
 						<Heading
+							as="h2"
+							size="3xl"
 							textAlign="center"
-							fontSize="4xl"
 							textShadow="text-glow.secondary"
+							fontWeight="bold"
 						>
 							Everything You Need
 						</Heading>

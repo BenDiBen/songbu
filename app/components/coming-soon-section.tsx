@@ -8,8 +8,10 @@ export const ComingSoonSection = () => {
 				<VStack gap={12}>
 					<VStack gap={4}>
 						<Heading
+							as="h2"
 							textAlign="center"
-							fontSize="4xl"
+							fontWeight="bold"
+							size="3xl"
 							textShadow="text-glow.secondary"
 						>
 							Coming Soon!
