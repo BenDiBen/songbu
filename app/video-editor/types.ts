@@ -15,3 +15,13 @@ export type VideoContextReturn = VideoContextValue & {
 	setLyrics: (lyrics: string) => void;
 	setKeyframes: (keyframes: Keyframe[]) => void;
 };
+
+export type Line = {
+	content: string;
+	start: number;
+	end: number;
+};
+
+export type Frame = {
+	lines: Line[];
+};
