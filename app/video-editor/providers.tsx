@@ -23,7 +23,7 @@ const VideoContext = createContext<VideoContextReturn>({
 export const VideoEditorProviders = ({
 	children,
 }: { children: React.ReactNode }) => {
-	const steps = useSteps({ defaultStep: 0, count: STEPS.length });
+	const steps = useSteps({ defaultStep: 2, count: STEPS.length });
 	const [videoContext, setVideoContext] = useState<VideoContextValue>({
 		isLoading: false,
 		keyframes: [],

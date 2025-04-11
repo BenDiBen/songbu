@@ -13,6 +13,8 @@
     "@chakra-ui/react": "^3.13.0",
     "@emotion/react": "^11.14.0",
     "@fontsource-variable/tilt-neon": "^5.2.6",
+    "@remotion/cli": "4.0.285",
+    "@remotion/player": "4.0.285",
     "@tanstack/react-query": "^5.69.0",
     "cheerio": "^1.0.0",
     "dayjs": "^1.11.13",
@@ -22,6 +24,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "remotion": "4.0.285",
     "use-debounce": "^10.0.4"
   },
   "devDependencies": {
