@@ -1,8 +1,8 @@
 import { useToken } from "@chakra-ui/react";
-import { Player, PlayerRef } from "@remotion/player";
+import { Player, type PlayerRef } from "@remotion/player";
+import { produce } from "immer";
 import { useEffect, useRef, useState } from "react";
 import { AbsoluteFill, Audio as RemotionAudio } from "remotion";
-import { FrameTimeline } from "./frame-timeline";
 import { FRAMES } from "./frames";
 import { LyricsFrame } from "./lyrics-frame";
 const FPS = 30;
@@ -10,19 +10,12 @@ export const VIDEO_WIDTH = 1280;
 export const VIDEO_HEIGHT = 720;
 export const VIDEO_FPS = 30;
 
-type Frame = {
-	lines: {
-		content: string;
-		start: number;
-		end: number;
-	}[];
-};
-
 export const Preview = ({ file }: { file: File | null }) => {
 	const [src, setSrc] = useState<string | null>(null);
 	const [durationInSeconds, setDurationInSeconds] = useState(5);
 	const backgroundColor = useToken("colors", "bg")?.[0];
 	const playerRef = useRef<PlayerRef>(null);
+	const [frames, setFrames] = useState(FRAMES);
 
 	useEffect(() => {
 		if (!file) {
@@ -74,7 +67,7 @@ export const Preview = ({ file }: { file: File | null }) => {
 								backgroundColor,
 							}}
 						>
-							{FRAMES.map((frame, index) => (
+							{frames.map((frame, index) => (
 								<LyricsFrame key={index} source={frame} />
 							))}
 							{src && <RemotionAudio src={src} />}
@@ -85,14 +78,29 @@ export const Preview = ({ file }: { file: File | null }) => {
 				loop
 				controls
 			/>
-			{playerRef?.current && (
+			{/* {playerRef?.current && (
 				<FrameTimeline
-					frames={FRAMES}
+					frames={frames}
 					fps={FPS}
 					durationInFrames={durationInFrames}
 					playerRef={playerRef.current}
+					onLineChange={handleLineChange}
 				/>
-			)}
+			)} */}
 		</>
 	);
+
+	function handleLineChange(e: {
+		frameIndex: number;
+		lineIndex: number;
+		position: "start" | "end";
+		value: number;
+	}): void {
+		console.log({ e });
+		setFrames(
+			produce((draft) => {
+				draft[e.frameIndex].lines[e.lineIndex][e.position] = e.value;
+			}),
+		);
+	}
 };

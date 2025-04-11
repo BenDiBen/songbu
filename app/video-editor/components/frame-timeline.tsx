@@ -1,20 +1,68 @@
 "use client";
 
-import { Box } from "@chakra-ui/react";
+import { Box, Slider } from "@chakra-ui/react";
 import type { PlayerRef } from "@remotion/player";
 import { useEffect, useRef, useState } from "react";
 import type { Frame } from "../types";
+
+type LineModel = {
+	key: string;
+	frameIndex: number;
+	lineIndex: number;
+	time: {
+		start: number;
+		end: number;
+		min: number;
+		max: number;
+	};
+};
+
+const buildLineModels = (frames: Frame[], durationInSeconds: number) =>
+	frames
+		.flatMap((frame, frameIndex) =>
+			frame.lines.map((line, lineIndex) => ({
+				...line,
+				lineIndex,
+				frameIndex,
+				key: `${frameIndex}-${lineIndex}`,
+			})),
+		)
+		.reduce<LineModel[]>((acc, line) => {
+			const previous = acc.at(-1);
+
+			if (previous) {
+				previous.time.max = line.start;
+			}
+
+			acc.push({
+				...line,
+				time: {
+					...line,
+					min: previous ? previous.time.end : 0,
+					max: durationInSeconds,
+				},
+			});
+
+			return acc;
+		}, []);
 
 export const FrameTimeline = ({
 	frames,
 	fps,
 	durationInFrames,
 	playerRef,
+	onLineChange,
 }: {
 	frames: Frame[];
 	fps: number;
 	durationInFrames: number;
 	playerRef: PlayerRef;
+	onLineChange: (e: {
+		frameIndex: number;
+		lineIndex: number;
+		position: "start" | "end";
+		value: number;
+	}) => void;
 }) => {
 	const [zoom, setZoom] = useState(5);
 	const [currentFrame, setCurrentFrame] = useState(0);
@@ -32,9 +80,9 @@ export const FrameTimeline = ({
 
 	const lines = frames.flatMap((frame) => frame.lines);
 	const getLeft = (startInSeconds: number) =>
-		((startInSeconds * fps) / durationInFrames) * zoom * 100;
+		((startInSeconds * fps) / durationInFrames) * 100;
 	const getWidth = (startInSeconds: number, endInSeconds: number) =>
-		(((endInSeconds - startInSeconds) * fps) / durationInFrames) * zoom * 100;
+		(((endInSeconds - startInSeconds) * fps) / durationInFrames) * 100;
 
 	useEffect(() => {
 		const div = timelineRef.current;
@@ -76,35 +124,56 @@ export const FrameTimeline = ({
 		};
 	}, [timelineRef.current]);
 
+	const lineModels = buildLineModels(frames, durationInFrames / fps);
+
 	return (
-		<Box
-			width="full"
-			maxWidth="full"
-			overflow="hidden"
-			position="relative"
-			height={8}
-			ref={timelineRef}
-		>
-			{lines.map((line, index) => (
-				<Box
-					key={index}
-					pos="absolute"
-					top={0}
-					left={`${getLeft(line.start)}%`}
-					height="full"
-					width={`${getWidth(line.start, line.end)}%`}
-					border="solid blue 1px"
-				/>
-			))}
-			<Box
-				pos="absolute"
-				top={0}
-				left={`${getLeft(currentFrame / fps)}%`}
-				h="full"
-				w={1}
-				bg="primary.500"
-				cursor="pointer"
-			/>
+		<Box w="full" overflow="clip" minH={8}>
+			<Box width={`${100 * zoom}%`} ref={timelineRef} position="relative">
+				{lines.map((line, index) => (
+					<Box
+						key={index}
+						colorPalette="secondary"
+						pos="absolute"
+						top={0}
+						left={`${getLeft(line.start)}%`}
+						height="full"
+						width={`${getWidth(line.start, line.end)}%`}
+						borderColor="colorPalette.emphasized"
+						borderStyle="solid"
+						borderWidth={1}
+					/>
+				))}
+				{lineModels.map((lineModel) => (
+					<Slider.Root
+						pos="absolute"
+						top={0}
+						key={lineModel.key}
+						w="full"
+						value={[lineModel.time.start * fps, lineModel.time.end * fps]}
+						step={1}
+						onValueChange={(e) => {
+							const newStart = Math.min(...e.value);
+							const newEnd = Math.min(...e.value);
+
+							const position =
+								Math.abs(lineModel.time.start * fps - newStart) >= 1
+									? "start"
+									: "end";
+							const value = (position === "start" ? newStart : newEnd) / fps;
+							onLineChange({ ...lineModel, position, value });
+						}}
+						min={lineModel.time.min * fps}
+						max={lineModel.time.max * fps}
+						left={`${getLeft(lineModel.time.start)}%`}
+						width={`${getWidth(lineModel.time.start, lineModel.time.end)}%`}
+					>
+						<Slider.Control>
+							<Slider.Track />
+							<Slider.Thumbs />
+						</Slider.Control>
+					</Slider.Root>
+				))}
+			</Box>
 		</Box>
 	);
 };
