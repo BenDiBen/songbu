@@ -85,11 +85,14 @@ export const Preview = ({ file }: { file: File | null }) => {
 				loop
 				controls
 			/>
-			<FrameTimeline
-				frames={FRAMES}
-				fps={FPS}
-				durationInFrames={durationInFrames}
-			/>
+			{playerRef?.current && (
+				<FrameTimeline
+					frames={FRAMES}
+					fps={FPS}
+					durationInFrames={durationInFrames}
+					playerRef={playerRef.current}
+				/>
+			)}
 		</>
 	);
 };
