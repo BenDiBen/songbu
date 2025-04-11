@@ -3899,6 +3899,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^10.1.1":
+  version: 10.1.1
+  resolution: "immer@npm:10.1.1"
+  checksum: 10c0/b749e10d137ccae91788f41bd57e9387f32ea6d6ea8fd7eb47b23fd7766681575efc7f86ceef7fe24c3bc9d61e38ff5d2f49c2663b2b0c056e280a4510923653
+  languageName: node
+  linkType: hard
+
 "import-fresh@npm:^3.2.1":
   version: 3.3.1
   resolution: "import-fresh@npm:3.3.1"
@@ -5311,6 +5318,7 @@ __metadata:
     "@types/react-dom": "npm:^19"
     cheerio: "npm:^1.0.0"
     dayjs: "npm:^1.11.13"
+    immer: "npm:^10.1.1"
     ky: "npm:^1.7.5"
     next: "npm:15.2.2"
     next-themes: "npm:^0.4.6"
