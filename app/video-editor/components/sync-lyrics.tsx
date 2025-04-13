@@ -10,6 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuUpload } from "react-icons/lu";
+import type { Line } from "../types";
+import { FRAMES } from "./frames";
+import { VideoCaptionTimeline } from "./lyrics-timeline";
 import { Preview } from "./preview";
 
 export const SyncLyrics = ({ max = 300 }: { max?: number }) => {
@@ -25,6 +28,9 @@ export const SyncLyrics = ({ max = 300 }: { max?: number }) => {
 		onValueChangeEnd: (e) => setValue(e.value),
 	});
 	const [file, setFile] = useState<File | null>(null);
+	const [lines, setLines] = useState<Line[]>(
+		FRAMES.flatMap((frame) => frame.lines),
+	);
 
 	return (
 		<VStack>

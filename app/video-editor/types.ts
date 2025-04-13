@@ -17,6 +17,7 @@ export type VideoContextReturn = VideoContextValue & {
 };
 
 export type Line = {
+	id: string;
 	content: string;
 	start: number;
 	end: number;
