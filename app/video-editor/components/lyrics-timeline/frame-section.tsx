@@ -1,12 +1,13 @@
-import { Box, Text } from "@chakra-ui/react";
-import type { Line } from "../../types";
+import { Box, Center, Text } from "@chakra-ui/react";
+import type { Frame } from "../../types";
 import { useSection } from "./use-section";
 
-interface LyricsLineProps {
-	line: Line;
+interface FrameSectionProps {
+	frame: Frame;
+	index: number;
 	duration: number;
 	isSelected: boolean;
-	onUpdate: (line: Line) => void;
+	onUpdate: (frame: Frame) => void;
 	onDelete: () => void;
 	onSeek: () => void;
 	zoom: number;
@@ -14,32 +15,33 @@ interface LyricsLineProps {
 	min?: number;
 }
 
-export const LyricsLine = ({
-	line,
+export const FrameSection = ({
+	frame,
+	index,
 	duration,
 	isSelected,
 	onUpdate,
 	onDelete,
 	onSeek,
 	...rest
-}: LyricsLineProps) => {
+}: FrameSectionProps) => {
 	const { sectionRef, onSectionMouseDown, handles, dragType } = useSection(
-		line,
+		frame,
 		{ duration, onUpdate, ...rest },
 	);
 
 	return (
-		<Box
+		<Center
 			ref={sectionRef}
 			position="absolute"
-			key={line.id}
-			width={`${((line.end - line.start) / duration) * 100}%`}
-			maxWidth={`${((line.end - line.start) / duration) * 100}%`}
+			key={frame.id}
+			width={`${((frame.end - frame.start) / duration) * 100}%`}
+			maxWidth={`${((frame.end - frame.start) / duration) * 100}%`}
 			whiteSpace="nowrap"
 			overflow="clip"
-			left={`${(line.start / duration) * 100}%`}
+			left={`${(frame.start / duration) * 100}%`}
 			onMouseDown={onSectionMouseDown}
-			bg="bg.emphasized"
+			bg="secondary.emphasized"
 			border="none"
 			borderLeft="solid"
 			borderRight="solid"
@@ -63,9 +65,9 @@ export const LyricsLine = ({
 					bg="transparent"
 				/>
 			))}
-			<Text p={2} fontSize="xs">
-				{line.content}
+			<Text px={2} fontSize="xs">
+				{`Section  ${index + 1}`}
 			</Text>
-		</Box>
+		</Center>
 	);
 };

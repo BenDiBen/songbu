@@ -24,5 +24,8 @@ export type Line = {
 };
 
 export type Frame = {
+	id: string;
+	start: number;
+	end: number;
 	lines: Line[];
 };

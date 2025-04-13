@@ -3,6 +3,9 @@ import type { Frame } from "../types";
 
 export const FRAMES: Frame[] = [
 	{
+		id: uuidv4(),
+		start: 0,
+		end: 40,
 		lines: [
 			{
 				id: uuidv4(),
@@ -31,6 +34,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 40,
+		end: 80,
 		lines: [
 			{
 				id: uuidv4(),
@@ -59,6 +65,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 80,
+		end: 110,
 		lines: [
 			{
 				id: uuidv4(),
@@ -81,6 +90,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 110,
+		end: 160,
 		lines: [
 			{
 				id: uuidv4(),
@@ -109,6 +121,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 160,
+		end: 190,
 		lines: [
 			{
 				id: uuidv4(),
@@ -137,6 +152,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 190,
+		end: 230,
 		lines: [
 			{
 				id: uuidv4(),
@@ -165,6 +183,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 230,
+		end: 260,
 		lines: [
 			{
 				id: uuidv4(),
@@ -187,6 +208,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 260,
+		end: 300,
 		lines: [
 			{
 				id: uuidv4(),
@@ -215,6 +239,9 @@ export const FRAMES: Frame[] = [
 		],
 	},
 	{
+		id: uuidv4(),
+		start: 300,
+		end: 340,
 		lines: [
 			{
 				id: uuidv4(),
