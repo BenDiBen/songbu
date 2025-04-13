@@ -3,6 +3,7 @@ import { Player, type PlayerRef } from "@remotion/player";
 import { produce } from "immer";
 import { useEffect, useRef, useState } from "react";
 import { AbsoluteFill, Audio as RemotionAudio } from "remotion";
+import { FrameTimeline } from "./frame-timeline";
 import { FRAMES } from "./frames";
 import { LyricsFrame } from "./lyrics-frame";
 const FPS = 30;
@@ -78,7 +79,7 @@ export const Preview = ({ file }: { file: File | null }) => {
 				loop
 				controls
 			/>
-			{/* {playerRef?.current && (
+			{playerRef?.current && (
 				<FrameTimeline
 					frames={frames}
 					fps={FPS}
@@ -86,7 +87,7 @@ export const Preview = ({ file }: { file: File | null }) => {
 					playerRef={playerRef.current}
 					onLineChange={handleLineChange}
 				/>
-			)} */}
+			)}
 		</>
 	);
 

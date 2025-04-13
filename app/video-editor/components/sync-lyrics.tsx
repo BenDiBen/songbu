@@ -12,7 +12,7 @@ import { useState } from "react";
 import { LuUpload } from "react-icons/lu";
 import type { Line } from "../types";
 import { FRAMES } from "./frames";
-import { VideoCaptionTimeline } from "./lyrics-timeline";
+import { LyricsTimeline } from "./lyrics-timeline";
 import { Preview } from "./preview";
 
 export const SyncLyrics = ({ max = 300 }: { max?: number }) => {
@@ -35,6 +35,7 @@ export const SyncLyrics = ({ max = 300 }: { max?: number }) => {
 	return (
 		<VStack>
 			<Preview file={file} />
+			<LyricsTimeline />
 			<FileUpload.Root
 				minW="xl"
 				alignItems="stretch"

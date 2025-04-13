@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Slider } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import type { PlayerRef } from "@remotion/player";
 import { useEffect, useRef, useState } from "react";
 import type { Frame } from "../types";
@@ -127,8 +127,15 @@ export const FrameTimeline = ({
 	const lineModels = buildLineModels(frames, durationInFrames / fps);
 
 	return (
-		<Box w="full" overflow="clip" minH={8}>
-			<Box width={`${100 * zoom}%`} ref={timelineRef} position="relative">
+		<Box overflow="clip" minH={8} h={8} bg="blue">
+			<Box
+				width={`${100 * zoom}%`}
+				ref={timelineRef}
+				position="relative"
+				minH={8}
+				h={8}
+				bg="red"
+			>
 				{lines.map((line, index) => (
 					<Box
 						key={index}
@@ -136,42 +143,13 @@ export const FrameTimeline = ({
 						pos="absolute"
 						top={0}
 						left={`${getLeft(line.start)}%`}
-						height="full"
+						minH={8}
+						h={8}
 						width={`${getWidth(line.start, line.end)}%`}
 						borderColor="colorPalette.emphasized"
 						borderStyle="solid"
 						borderWidth={1}
 					/>
-				))}
-				{lineModels.map((lineModel) => (
-					<Slider.Root
-						pos="absolute"
-						top={0}
-						key={lineModel.key}
-						w="full"
-						value={[lineModel.time.start * fps, lineModel.time.end * fps]}
-						step={1}
-						onValueChange={(e) => {
-							const newStart = Math.min(...e.value);
-							const newEnd = Math.min(...e.value);
-
-							const position =
-								Math.abs(lineModel.time.start * fps - newStart) >= 1
-									? "start"
-									: "end";
-							const value = (position === "start" ? newStart : newEnd) / fps;
-							onLineChange({ ...lineModel, position, value });
-						}}
-						min={lineModel.time.min * fps}
-						max={lineModel.time.max * fps}
-						left={`${getLeft(lineModel.time.start)}%`}
-						width={`${getWidth(lineModel.time.start, lineModel.time.end)}%`}
-					>
-						<Slider.Control>
-							<Slider.Track />
-							<Slider.Thumbs />
-						</Slider.Control>
-					</Slider.Root>
 				))}
 			</Box>
 		</Box>
