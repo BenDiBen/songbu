@@ -1,41 +1,24 @@
 "use client";
 
-import {
-	Button,
-	FileUpload,
-	Icon,
-	Text,
-	VStack,
-	useSlider,
-} from "@chakra-ui/react";
+import { useLocalState } from "@/app/hooks/use-local-state";
+import { withoutSsr } from "@/lib/utils";
+import { Button, FileUpload, Icon, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuUpload } from "react-icons/lu";
-import type { Line } from "../types";
+import { useDebounce } from "use-debounce";
 import { FRAMES } from "./frames";
 import { LyricsTimeline } from "./lyrics-timeline";
 import { Preview } from "./preview";
 
-export const SyncLyrics = ({ max = 300 }: { max?: number }) => {
-	const [value, setValue] = useState([50, 75]);
-	const [isMouseOver, setIsMouseOver] = useState(false);
-	const [isHoveringThumb, setIsHoveringThumb] = useState(false);
-	const [mouseThumbPosition, setMouseThumbPosition] = useState(0);
-	const showNewThumb = isMouseOver && !isHoveringThumb;
-	const slider = useSlider({
-		max,
-		value: [mouseThumbPosition, ...value],
-		step: 0.1,
-		onValueChangeEnd: (e) => setValue(e.value),
-	});
+export const SyncLyrics = withoutSsr(() => {
 	const [file, setFile] = useState<File | null>(null);
-	const [lines, setLines] = useState<Line[]>(
-		FRAMES.flatMap((frame) => frame.lines),
-	);
+	const [frames, setFrames] = useLocalState("frames", FRAMES);
+	const [debouncedFrames] = useDebounce(frames, 200);
 
 	return (
 		<VStack>
-			<Preview file={file} />
-			<LyricsTimeline />
+			<Preview frames={debouncedFrames} file={file} />
+			<LyricsTimeline frames={frames} onUpdate={setFrames} />
 			<FileUpload.Root
 				minW="xl"
 				alignItems="stretch"
@@ -64,4 +47,4 @@ export const SyncLyrics = ({ max = 300 }: { max?: number }) => {
 	function onFileAccepted({ files }: { files: File[] }) {
 		setFile(files[0]);
 	}
-};
+});

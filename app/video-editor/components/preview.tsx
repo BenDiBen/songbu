@@ -1,59 +1,54 @@
 import { useToken } from "@chakra-ui/react";
 import { Player, type PlayerRef } from "@remotion/player";
-import { produce } from "immer";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { AbsoluteFill, Audio as RemotionAudio } from "remotion";
-import { FrameTimeline } from "./frame-timeline";
-import { FRAMES } from "./frames";
+import type { Frame } from "../types";
 import { LyricsFrame } from "./lyrics-frame";
 const FPS = 30;
 export const VIDEO_WIDTH = 1280;
 export const VIDEO_HEIGHT = 720;
 export const VIDEO_FPS = 30;
 
-export const Preview = ({ file }: { file: File | null }) => {
-	const [src, setSrc] = useState<string | null>(null);
-	const [durationInSeconds, setDurationInSeconds] = useState(5);
-	const backgroundColor = useToken("colors", "bg")?.[0];
-	const playerRef = useRef<PlayerRef>(null);
-	const [frames, setFrames] = useState(FRAMES);
+export const Preview = memo(
+	({ file, frames }: { file: File | null; frames: Frame[] }) => {
+		const [src, setSrc] = useState<string | null>(null);
+		const [durationInSeconds, setDurationInSeconds] = useState(300);
+		const backgroundColor = useToken("colors", "bg")?.[0];
+		const playerRef = useRef<PlayerRef>(null);
 
-	useEffect(() => {
-		if (!file) {
-			return;
-		}
+		useEffect(() => {
+			if (!file) {
+				return;
+			}
 
-		const handleFileRead = (e: ProgressEvent<FileReader>) => {
-			setSrc(e.target?.result as string);
-		};
+			const handleFileRead = (e: ProgressEvent<FileReader>) => {
+				setSrc(e.target?.result as string);
+			};
 
-		const reader = new FileReader();
-		reader.addEventListener("load", handleFileRead);
-		reader.addEventListener("error", (e) => console.error(e));
-		reader.readAsDataURL(file);
+			const reader = new FileReader();
+			reader.addEventListener("load", handleFileRead);
+			reader.addEventListener("error", (e) => console.error(e));
+			reader.readAsDataURL(file);
 
-		return () => reader.removeEventListener("load", handleFileRead);
-	}, [file]);
+			return () => reader.removeEventListener("load", handleFileRead);
+		}, [file]);
 
-	useEffect(() => {
-		if (!src) {
-			return;
-		}
+		useEffect(() => {
+			if (!src) {
+				return;
+			}
 
-		const audio = new Audio(src);
+			const audio = new Audio(src);
+			const handleMetadataLoaded = () => setDurationInSeconds(audio.duration);
+			audio.addEventListener("loadedmetadata", handleMetadataLoaded);
 
-		const handleMetadataLoaded = () => setDurationInSeconds(audio.duration);
+			return () =>
+				audio.removeEventListener("loadedmetadata", handleMetadataLoaded);
+		}, [src]);
 
-		audio.addEventListener("loadedmetadata", handleMetadataLoaded);
+		const durationInFrames = Math.round(durationInSeconds * FPS);
 
-		return () =>
-			audio.removeEventListener("loadedmetadata", handleMetadataLoaded);
-	}, [src]);
-
-	const durationInFrames = Math.round(durationInSeconds * FPS);
-
-	return (
-		<>
+		return (
 			<Player
 				ref={playerRef}
 				acknowledgeRemotionLicense
@@ -79,29 +74,6 @@ export const Preview = ({ file }: { file: File | null }) => {
 				loop
 				controls
 			/>
-			{playerRef?.current && (
-				<FrameTimeline
-					frames={frames}
-					fps={FPS}
-					durationInFrames={durationInFrames}
-					playerRef={playerRef.current}
-					onLineChange={handleLineChange}
-				/>
-			)}
-		</>
-	);
-
-	function handleLineChange(e: {
-		frameIndex: number;
-		lineIndex: number;
-		position: "start" | "end";
-		value: number;
-	}): void {
-		console.log({ e });
-		setFrames(
-			produce((draft) => {
-				draft[e.frameIndex].lines[e.lineIndex][e.position] = e.value;
-			}),
 		);
-	}
-};
+	},
+);
