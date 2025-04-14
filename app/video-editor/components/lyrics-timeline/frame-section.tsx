@@ -41,14 +41,12 @@ export const FrameSection = ({
 			overflow="clip"
 			left={`${(frame.start / duration) * 100}%`}
 			onMouseDown={onSectionMouseDown}
-			bg="secondary.emphasized"
-			border="none"
-			borderLeft="solid"
-			borderRight="solid"
-			borderColor="primary.500"
-			borderWidth="1px"
+			bg="secondary.muted"
 			cursor="move"
 			aria-selected={dragType !== "none"}
+			_hover={{
+				bg: dragType !== "none" ? undefined : "secondary.emphasized",
+			}}
 			_selected={{
 				bg: "primary.emphasized",
 			}}
@@ -63,6 +61,12 @@ export const FrameSection = ({
 					width={2}
 					cursor="col-resize"
 					bg="transparent"
+					border="none"
+					borderLeft={props.key === "start" ? "solid" : "none"}
+					borderRight={props.key === "end" ? "solid" : "none"}
+					borderColor="primary.muted"
+					borderWidth="1px"
+					_hover={{ bg: "primary.500" }}
 				/>
 			))}
 			<Text px={2} fontSize="xs">
