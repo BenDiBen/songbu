@@ -6,7 +6,7 @@ const description = `Enhance your karaoke experience with Songbu - the ultimate 
 Create custom karaoke videos with perfect timing and stunning visuals.
 No coding skills required. Get started now!`;
 
-const title = "Songbu - The Karaoke Jockey's Best Friend";
+const title = "Songbu - Make it Your Own";
 
 export const metadata: Metadata = {
 	title,
