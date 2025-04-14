@@ -1,5 +1,6 @@
 import { Box, Center, Text } from "@chakra-ui/react";
 import type { Frame } from "../../types";
+import type { SECTION_UPDATE_TYPES } from "./enums";
 import { useSection } from "./use-section";
 
 interface FrameSectionProps {
@@ -7,12 +8,11 @@ interface FrameSectionProps {
 	index: number;
 	duration: number;
 	isSelected: boolean;
-	onUpdate: (frame: Frame) => void;
+	onUpdate: (frame: Frame, type: SECTION_UPDATE_TYPES) => void;
 	onDelete: () => void;
 	onSeek: () => void;
 	zoom: number;
-	max?: number;
-	min?: number;
+	ranges: SectionRanges;
 }
 
 export const FrameSection = ({

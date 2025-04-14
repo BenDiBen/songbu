@@ -26,14 +26,11 @@ export const LyricsFrame = ({ source }: { source: Frame }) => {
 	const { fps } = useVideoConfig();
 
 	return (
-		<Sequence
-			from={getFrom(source) * fps}
-			durationInFrames={getDuration(source) * fps}
-		>
+		<Sequence from={source.start * fps} durationInFrames={source.end * fps}>
 			<Center w="full">
 				<VStack>
 					{source.lines.map((line, lineIndex) => (
-						<Box key={lineIndex} position="relative" overflow="hidden">
+						<Box key={line.id} position="relative" overflow="hidden">
 							<Text fontSize="3xl">{line.content}</Text>
 							<Text
 								fontSize="3xl"

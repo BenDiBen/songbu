@@ -1,5 +1,6 @@
 import { clamp } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { type SECTION_UPDATE_TYPES, SectionUpdateTypes } from "./enums";
 
 type SectionUpdateEvent<T extends { start: number; end: number }> = {
 	target: T;
@@ -9,16 +10,14 @@ type SectionUpdateEvent<T extends { start: number; end: number }> = {
 
 interface SectionOptions<T extends { start: number; end: number }> {
 	duration: number;
-	onUpdate: (section: T) => void;
-	min?: number;
-	max?: number;
+	onUpdate: (section: T, type: SECTION_UPDATE_TYPES) => void;
+	ranges: SectionRanges;
 }
 
 export const useSection = <T extends { start: number; end: number }>(
 	section: T,
-	{ duration, onUpdate, ...rest }: SectionOptions<T>,
+	{ duration, onUpdate, ranges }: SectionOptions<T>,
 ) => {
-	const { min = 0, max = duration } = rest;
 	const [dragType, setDragType] = useState<
 		"start" | "end" | "section" | "none"
 	>("none");
@@ -40,24 +39,25 @@ export const useSection = <T extends { start: number; end: number }>(
 
 			switch (dragType) {
 				case "start": {
-					const newStart = Math.min(
-						Math.max(min, newTimePosition),
-						section.end - 0.5,
-					);
-					onUpdate({ ...section, start: newStart });
+					const newStart = clamp(newTimePosition, {
+						min: ranges.start.min,
+						max: ranges.start.max,
+					});
+					onUpdate({ ...section, start: newStart }, SectionUpdateTypes.start);
 					break;
 				}
 				case "end": {
-					const newEnd = Math.max(
-						Math.min(max, newTimePosition),
-						section.start + 0.5,
-					);
-					onUpdate({ ...section, end: newEnd });
+					const newEnd = clamp(newTimePosition, {
+						min: ranges.end.min,
+						max: ranges.end.max,
+					});
+					onUpdate({ ...section, end: newEnd }, SectionUpdateTypes.end);
 					break;
 				}
 				case "section": {
-					const maxDelta = max - originalEnd;
-					const minDelta = min - originalStart;
+					const maxDelta = ranges.end.max - originalEnd;
+					const minDelta = ranges.start.min - originalStart;
+
 					const deltaPercentage = (e.clientX - dragStartX) / rect.width;
 					const delta = deltaPercentage * duration;
 					const clampedDelta = clamp(delta, { min: minDelta, max: maxDelta });
@@ -65,7 +65,10 @@ export const useSection = <T extends { start: number; end: number }>(
 					const newStart = originalStart + clampedDelta;
 					const newEnd = originalEnd + clampedDelta;
 
-					onUpdate({ ...section, start: newStart, end: newEnd });
+					onUpdate(
+						{ ...section, start: newStart, end: newEnd },
+						SectionUpdateTypes.shift,
+					);
 					break;
 				}
 				default:
@@ -94,8 +97,10 @@ export const useSection = <T extends { start: number; end: number }>(
 		originalStart,
 		originalEnd,
 		onUpdate,
-		max,
-		min,
+		ranges.start.min,
+		ranges.start.max,
+		ranges.end.min,
+		ranges.end.max,
 	]);
 
 	const onSectionMouseDown = useCallback(

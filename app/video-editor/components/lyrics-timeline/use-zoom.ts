@@ -22,7 +22,7 @@ export const useZoom = () => {
 					delta > 0
 						? prevZoom * zoomFactor
 						: Math.max(0.1, prevZoom / zoomFactor);
-				return newZoom;
+				return Math.max(newZoom, 1);
 			});
 		};
 

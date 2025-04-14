@@ -1,17 +1,17 @@
 import { Box, Text } from "@chakra-ui/react";
 import type { Line } from "../../types";
+import type { SECTION_UPDATE_TYPES } from "./enums";
 import { useSection } from "./use-section";
 
 interface LyricsLineProps {
 	line: Line;
 	duration: number;
 	isSelected: boolean;
-	onUpdate: (line: Line) => void;
+	onUpdate: (line: Line, type: SECTION_UPDATE_TYPES) => void;
 	onDelete: () => void;
 	onSeek: () => void;
 	zoom: number;
-	max?: number;
-	min?: number;
+	ranges: SectionRanges;
 }
 
 export const LyricsLine = ({
