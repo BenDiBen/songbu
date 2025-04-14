@@ -63,8 +63,8 @@ export const Preview = memo(
 								backgroundColor,
 							}}
 						>
-							{frames.map((frame, index) => (
-								<LyricsFrame key={index} source={frame} />
+							{frames.map((frame) => (
+								<LyricsFrame key={frame.id} source={frame} />
 							))}
 							{src && <RemotionAudio src={src} />}
 						</AbsoluteFill>
