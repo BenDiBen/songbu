@@ -8,3 +8,16 @@ type SectionRanges = {
 		max: number;
 	};
 };
+
+type HandleReturn = (
+	| {
+			key: "start";
+			left: number;
+			onMouseDown: (e: React.MouseEvent) => void;
+	  }
+	| {
+			key: "end";
+			right: number;
+			onMouseDown: (e: React.MouseEvent) => void;
+	  }
+)[];

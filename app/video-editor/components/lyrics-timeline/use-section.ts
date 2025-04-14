@@ -115,10 +115,10 @@ export const useSection = <T extends { start: number; end: number }>(
 		[section.start, section.end],
 	);
 
-	const handles = useMemo(
+	const handles = useMemo<HandleReturn>(
 		() => [
-			{ key: "left", left: 0, onMouseDown: onStartHandleMouseDown },
-			{ key: "right", right: 0, onMouseDown: onEndHandleMouseDown },
+			{ key: "start", left: 0, onMouseDown: onStartHandleMouseDown },
+			{ key: "end", right: 0, onMouseDown: onEndHandleMouseDown },
 		],
 		[],
 	);
